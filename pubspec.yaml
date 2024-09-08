@@ -1,0 +1,40 @@
+name: cartedevisite
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  provider: ^6.1.2
+  http: ^1.2.1
+  url_launcher: ^6.0.9
+  flutter_secure_storage: ^6.0.0
+  dio: ^5.0.0
+  path_provider: ^2.0.11
+  permission_handler: ^10.2.0
+  cached_network_image: ^3.2.0
+  shared_preferences: ^2.0.14
+  image_picker: ^0.8.5+3
+  file_picker: ^5.1.1
+  email_validator: ^2.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.2
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+
+  fonts:
+    - family: JosefinSans
+      fonts:
+        - asset: assets/fonts/JosefinSans-Regular.ttf
