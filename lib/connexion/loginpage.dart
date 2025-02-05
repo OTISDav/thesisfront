@@ -10,7 +10,7 @@ class LoginPageEmail extends StatefulWidget {
 class _LoginPageEmailState extends State<LoginPageEmail> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final AuthService _authService = AuthService('https://3b6d-2c0f-f0f8-845-4d01-8d48-23c8-845e-1071.ngrok-free.app');
+  final AuthService _authService = AuthService('https://ubuntuthesisbackend.onrender.com');
   bool _isLoading = false;
   String? _errorMessage;
 
@@ -25,14 +25,14 @@ class _LoginPageEmailState extends State<LoginPageEmail> {
       });
 
       try {
-        await _authService.loginWithUsername(username, password);
+        await _authService.login(username, password);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => MyHomePage()),
         );
       } catch (e) {
         setState(() {
-          _errorMessage = 'Information incorrecte';
+          _errorMessage = e.toString();
         });
       } finally {
         setState(() {
@@ -44,6 +44,13 @@ class _LoginPageEmailState extends State<LoginPageEmail> {
         _errorMessage = 'Veuillez remplir tous les champs.';
       });
     }
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -63,7 +70,7 @@ class _LoginPageEmailState extends State<LoginPageEmail> {
                 child: Text('Connexion', style: TextStyle(fontSize: 40, color: Colors.white)),
               ),
               SizedBox(height: 100.0),
-              _buildTextField(_usernameController, 'Pseudo', Icons.person),
+              _buildTextField(_usernameController, 'Nom', Icons.person),
               SizedBox(height: 15.0),
               _buildTextField(_passwordController, 'Mot de passe', Icons.lock, obscureText: true),
               SizedBox(height: 15.0),

@@ -7,25 +7,9 @@ class AuthService {
 
   AuthService(this.baseUrl);
 
-  Future<String> loginWithEmail(String email, String password) async {
-    final url = Uri.parse('$baseUrl/api/accounts/login/');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'phone_or_email': email, 'password': password}),
-    );
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      await _saveToken(data['tokens']['access']);
-      return data['tokens']['access'];
-    } else {
-      throw Exception('Information incorrecte');
-    }
-  }
-
-  Future<String> loginWithUsername(String username, String password) async {
-    final url = Uri.parse('$baseUrl/api/accounts/login/');
+  // 📌 **Connexion avec username**
+  Future<String> login(String username, String password) async {
+    final url = Uri.parse('$baseUrl/api/users/auth/login/');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -34,38 +18,58 @@ class AuthService {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      await _saveToken(data['tokens']['access']);
-      return data['tokens']['access'];
+      print('Réponse du serveur: $data');  // Affiche la réponse pour inspection
+
+      // Vérifie si les tokens sont présents dans la réponse
+      if (data.containsKey('access') && data['access'] != null) {
+        await _saveToken(data['access']);  // Sauvegarde du token d'accès
+        return data['access'];  // Renvoie le token d'accès
+      } else {
+        throw Exception('Token d\'accès introuvable dans la réponse');
+      }
     } else {
-      throw Exception('Information incorrecte');
+      // Gestion des erreurs, récupération du message détaillé si disponible
+      final errorData = jsonDecode(response.body);
+      print('Erreur API: $errorData');  // Affiche l'erreur complète
+      throw Exception('Erreur de connexion: ${errorData['detail'] ?? 'Identifiants incorrects'}');
     }
   }
 
-  Future<void> register(String username, String phone, String email, String password) async {
-    final url = Uri.parse('$baseUrl/api/accounts/register/');
+  // 📌 **Inscription**
+  Future<void> register(String username, String email, String password) async {
+    final url = Uri.parse('$baseUrl/api/users/auth/register/');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'username': username,
-        'phone_number': phone,
         'email': email,
         'password': password
       }),
     );
 
     if (response.statusCode != 201) {
-      throw Exception('Erreur lors de l\'enregistrement');
+      final errorData = jsonDecode(response.body);
+      print('Erreur inscription: $errorData');
+      throw Exception('Erreur lors de l\'inscription: ${errorData['detail'] ?? response.body}');
     }
   }
 
+  // 📌 **Sauvegarde du token JWT**
   Future<void> _saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('auth_token', token);
   }
 
-  Future<String?> _getToken() async {
+  // 📌 **Récupération du token**
+  Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('auth_token');
+  }
+
+  // 📌 **Déconnexion**
+  Future<void> logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('auth_token');
   }
 }

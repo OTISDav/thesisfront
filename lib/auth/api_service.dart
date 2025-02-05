@@ -55,7 +55,7 @@ class ApiService {
   // Méthode pour récupérer la liste des documents publiés par l'utilisateur
   Future<List<Map<String, dynamic>>> getDocuments() async {
     final token = await _getToken();
-    final url = Uri.parse('$baseUrl/api/documents/memoire/list/');
+    final url = Uri.parse('$baseUrl/api/theses/theses/');
 
     try {
       final response = await http.get(
@@ -99,16 +99,17 @@ class ApiService {
   }
 
   // Méthode pour ajouter un document aux favoris de l'utilisateur
-Future<void> addToFavorites(int documentId) async {
-  final token = await _getToken();  // Obtenez le token le plus récent
-  final url = Uri.parse('$baseUrl/api/documents/favoris/ajout/');
-  print('ID du document envoyé : $documentId');  // Vérifiez l'ID
+Future<void> addToFavorites(Map<String, dynamic> body) async {
+  final token = await _getToken();  // Récupère le token JWT
+  final url = Uri.parse('$baseUrl/api/theses/favorites/');
+  print('Données envoyées : $body');  // Log pour afficher les données envoyées
+
   final response = await http.post(
     url,
-    body: jsonEncode({'document_id': documentId}),
+    body: jsonEncode(body),  // Envoie les données avec la clé 'thesis'
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token'
+      'Authorization': 'Bearer $token',
     },
   );
 
@@ -118,6 +119,8 @@ Future<void> addToFavorites(int documentId) async {
     print('Erreur lors de l\'ajout aux favoris: ${response.body}');
   }
 }
+
+
 
 
 
@@ -167,7 +170,7 @@ Future<void> addToFavorites(int documentId) async {
 
   // Méthode pour enregistrer un téléchargement de document
   Future<void> registerDownload(String fileUrl) async {
-    final url = Uri.parse('$baseUrl/api/memoire/download/<int:pk>/');
+    final url = Uri.parse('$baseUrl/documents/<int:pk>/');
     final response = await http.post(
       url,
       body: jsonEncode({'file_url': fileUrl}),

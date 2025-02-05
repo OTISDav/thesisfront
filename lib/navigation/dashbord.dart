@@ -11,7 +11,7 @@ class DashboardPage extends StatelessWidget {
     final token = prefs.getString('auth_token'); // Récupérez le jeton d'authentification
 
     final response = await http.get(
-      Uri.parse('https://3b6d-2c0f-f0f8-845-4d01-8d48-23c8-845e-1071.ngrok-free.app/api/documents/counts/'),
+      Uri.parse('https://86b9-2c0f-f0f8-816-5c00-307a-4893-16ef-cc9f.ngrok-free.app/api/documents/counts/'),
       headers: {
         'Authorization': 'Bearer $token', // Ajoutez le jeton à l'en-tête
       },
@@ -35,7 +35,7 @@ class DashboardPage extends StatelessWidget {
     final token = prefs.getString('auth_token'); // Récupérez le jeton d'authentification
 
     final response = await http.get(
-      Uri.parse('https://3b6d-2c0f-f0f8-845-4d01-8d48-23c8-845e-1071.ngrok-free.app/api/documents/user/documents/'),
+      Uri.parse('https://86b9-2c0f-f0f8-816-5c00-307a-4893-16ef-cc9f.ngrok-free.app/api/documents/user/documents/'),
       headers: {
         'Authorization': 'Bearer $token', // Ajoutez le jeton à l'en-tête
       },

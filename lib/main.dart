@@ -3,7 +3,7 @@ import 'navigation/welcomepage.dart';
 import 'auth/api_service.dart';
 
 void main() {
-  final apiService = ApiService('http://127.0.0.1:8000');
+  final apiService = ApiService('https://ubuntuthesisbackend.onrender.com');
   
   runApp(MyApp(apiService));
 }

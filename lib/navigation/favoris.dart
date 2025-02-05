@@ -8,7 +8,7 @@ class FavorisPage extends StatefulWidget {
 
 class _FavorisPageState extends State<FavorisPage> {
   List<Map<String, dynamic>> favoris = [];
-  ApiService apiService = ApiService('https://3b6d-2c0f-f0f8-845-4d01-8d48-23c8-845e-1071.ngrok-free.app'); // Remplacez par votre URL d'API
+  ApiService apiService = ApiService('https://86b9-2c0f-f0f8-816-5c00-307a-4893-16ef-cc9f.ngrok-free.app'); // Remplacez par votre URL d'API
 
   @override
   void initState() {

@@ -13,7 +13,7 @@ class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> filteredPdfFiles = [];
   TextEditingController searchController = TextEditingController();
 
-  ApiService apiService = ApiService('https://3b6d-2c0f-f0f8-845-4d01-8d48-23c8-845e-1071.ngrok-free.app'); // Remplacez par votre URL d'API
+  ApiService apiService = ApiService('https://ubuntuthesisbackend.onrender.com'); // Remplacez par votre URL d'API
 
   @override
   void initState() {
@@ -30,8 +30,8 @@ Future<void> _loadDocuments() async {
         return {
           'title': doc['title'] ?? '',
           'file': doc['file'] ?? '',
-          'resume': doc['resume'] ?? '',
-          'documentId': doc['documentId'] ?? '',
+          'sammary': doc['sammary'] ?? '',
+          'summary': doc['summary'] ?? '',
         };
       }).toList();
       filteredPdfFiles = pdfFiles;
@@ -116,7 +116,7 @@ Future<void> _loadDocuments() async {
                       context,
                       document['title'] ?? '',
                       document['file'] ?? '',
-                      document['resume'] ?? '',
+                      document['summary'] ?? '',
                       document['id'] ?? 0, // Assurez-vous que documentId n'est jamais null
                     );
                   },
@@ -228,7 +228,9 @@ Future<void> _loadDocuments() async {
     }
   }
 
-void _handleFavorite(int documentId) {
+void _handleFavorite(int? documentId) {
+  print("ID du document : $documentId");  // Log la valeur du documentId
+
   if (documentId == null || documentId <= 0) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('ID de document invalide')),
@@ -236,7 +238,8 @@ void _handleFavorite(int documentId) {
     return;
   }
 
-  apiService.addToFavorites(documentId).then((_) {
+  // Envoi à l'API avec la clé 'thesis' comme attendu par l'API
+  apiService.addToFavorites({'thesis': documentId}).then((_) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Ajouté aux favoris')),
     );
@@ -246,6 +249,8 @@ void _handleFavorite(int documentId) {
     );
   });
 }
+
+
 
 
 
