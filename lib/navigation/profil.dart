@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../connexion/sign_login.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../auth/api_service.dart'; 
+import '../auth/api_service.dart';
 
 class ProfilPage extends StatelessWidget {
   final ApiService apiService = ApiService('https://80bf-2c0f-f0f8-871-f100-dcd7-53c8-f6af-f65b.ngrok-free.app'); // Remplacez par votre URL d'API
@@ -11,14 +11,14 @@ class ProfilPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color.fromARGB(255, 47, 109, 120),
-        body: FutureBuilder<Map<String, dynamic>>(
+        body: FutureBuilder<Map<String, dynamic>?>(
           future: apiService.getUserProfile(),
-          builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>?> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text('Erreur lors de la récupération des informations de profil'));
-            } else if (!snapshot.hasData) {
+            } else if (!snapshot.hasData || snapshot.data == null) {
               return Center(child: Text('Aucune donnée disponible'));
             } else {
               final user = snapshot.data!;
@@ -59,10 +59,7 @@ class ProfilPage extends StatelessWidget {
                     title: Text('Modifier le profil'),
                     textColor: Colors.white,
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => EditProfilePage()),
-                      // );
+                      // Navigation pour modifier le profil
                     },
                   ),
                   SizedBox(height: 8),
@@ -71,10 +68,7 @@ class ProfilPage extends StatelessWidget {
                     title: Text('Changer le mot de passe'),
                     textColor: Colors.white,
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => ChangePasswordPage()),
-                      // );
+                      // Navigation pour changer le mot de passe
                     },
                   ),
                   SizedBox(height: 8),
@@ -83,10 +77,7 @@ class ProfilPage extends StatelessWidget {
                     title: Text('Notifications'),
                     textColor: Colors.white,
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => NotificationsPage()),
-                      // );
+                      // Navigation pour gérer les notifications
                     },
                   ),
                   SizedBox(height: 8),

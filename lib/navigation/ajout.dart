@@ -9,36 +9,35 @@ class AddDocumentPage extends StatefulWidget {
 }
 
 class _AddDocumentPageState extends State<AddDocumentPage> {
-  final ApiService _apiService = ApiService('https://86b9-2c0f-f0f8-816-5c00-307a-4893-16ef-cc9f.ngrok-free.app');
+  final ApiService _apiService = ApiService('https://ubuntuthesisbackend.onrender.com');
   final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _filiereController = TextEditingController();
-  final TextEditingController _anneeController = TextEditingController();
-  final TextEditingController _resumeController = TextEditingController();
-  File? _file;
+  final TextEditingController _authorController = TextEditingController();
+  final TextEditingController _summaryController = TextEditingController();
+  final TextEditingController _fieldController = TextEditingController();
+  final TextEditingController _yearController = TextEditingController();
+  File? _selectedFile;
   bool _isLoading = false;
   String? _errorMessage;
-  String _selectedType = 'memoire'; // Valeur par défaut
 
-  Future<void> _selectFile() async {
-    final result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
+  // 📌 Sélectionner un fichier PDF ou DOCX
+  Future<void> _pickFile() async {
+    final result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf', 'docx']);
 
     if (result != null && result.files.isNotEmpty) {
       setState(() {
-        _file = File(result.files.single.path!);
-      });
-    } else {
-      setState(() {
-        _file = null;
+        _selectedFile = File(result.files.single.path!);
       });
     }
   }
 
+  // 📌 Envoyer le document
   Future<void> _uploadDocument() async {
     if (_titleController.text.isEmpty ||
-        _filiereController.text.isEmpty ||
-        _anneeController.text.isEmpty ||
-        _resumeController.text.isEmpty ||
-        _file == null) {
+        _authorController.text.isEmpty ||
+        _summaryController.text.isEmpty ||
+        _fieldController.text.isEmpty ||
+        _yearController.text.isEmpty ||
+        _selectedFile == null) {
       setState(() {
         _errorMessage = 'Veuillez remplir tous les champs et sélectionner un fichier.';
       });
@@ -52,28 +51,23 @@ class _AddDocumentPageState extends State<AddDocumentPage> {
 
     try {
       final data = {
-        'title': _titleController.text,
-        'annee': int.parse(_anneeController.text), // Convertir en entier
-        'filiere': _filiereController.text,
-        'resume': _resumeController.text,
-        'document_type': _selectedType, // Utiliser la valeur sélectionnée
+        "title": _titleController.text,
+        "author": _authorController.text,
+        "summary": _summaryController.text,
+        "field_of_study": _fieldController.text,
+        "year": int.parse(_yearController.text),
       };
 
-      final response = await _apiService.post('/api/documents/memoire/create/', data, file: _file);
+      await _apiService.publishDocument(data, file: _selectedFile!);
 
-      if (response.statusCode == 201) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Document ajouté avec succès')),
-        );
-        Navigator.pop(context);
-      } else {
-        setState(() {
-          _errorMessage = 'Erreur lors de l\'ajout du document. Statut: ${response.statusCode}';
-        });
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Document ajouté avec succès')),
+      );
+
+      Navigator.pop(context);
     } catch (e) {
       setState(() {
-        _errorMessage = 'Erreur lors de l\'ajout du document : $e';
+        _errorMessage = 'Erreur lors de l\'ajout du document: $e';
       });
     } finally {
       setState(() {
@@ -86,80 +80,71 @@ class _AddDocumentPageState extends State<AddDocumentPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        
         backgroundColor: Color.fromARGB(255, 47, 109, 120),
+        
         body: SingleChildScrollView(
           padding: EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              TextField(
-                controller: _titleController,
-                decoration: InputDecoration(labelText: 'Titre'),
-              ),
+              SizedBox(height: 40),
+              _buildTextField(_titleController, "Titre"),
               SizedBox(height: 8),
-              TextField(
-                controller: _filiereController,
-                decoration: InputDecoration(labelText: 'Filière'),
-              ),
+              _buildTextField(_authorController, "Auteur"),
               SizedBox(height: 8),
-              TextField(
-                controller: _anneeController,
-                decoration: InputDecoration(labelText: 'Année'),
-                keyboardType: TextInputType.number,
-              ),
+              _buildTextField(_summaryController, "Résumé", maxLines: 3),
               SizedBox(height: 8),
-              DropdownButtonFormField<String>(
-                value: _selectedType,
-                items: [
-                  DropdownMenuItem(
-                    value: 'memoire',
-                    child: Text('Mémoire'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'these',
-                    child: Text('Thèse'),
-                  ),
-                ],
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedType = newValue!;
-                  });
-                },
-                decoration: InputDecoration(labelText: 'Type'),
-              ),
+              _buildTextField(_fieldController, "Filière"),
               SizedBox(height: 8),
-              TextField(
-                controller: _resumeController,
-                decoration: InputDecoration(labelText: 'Résumé'),
-                maxLines: 3,
-              ),
-              SizedBox(height: 35),
+              _buildTextField(_yearController, "Année", keyboardType: TextInputType.number),
+              SizedBox(height: 20),
+
               Row(
-                children: <Widget>[
+                children: [
                   ElevatedButton(
-                    onPressed: _selectFile,
-                    child: Text('Sélectionner un fichier'),
+                    onPressed: _pickFile,
+                    child: Text("Sélectionner un fichier"),
                   ),
                   SizedBox(width: 10),
-                  Text(_file != null ? 'Fichier sélectionné: ${_file!.path.split('/').last}' : 'Aucun fichier sélectionné'),
+                  Expanded(
+                    child: Text(
+                      _selectedFile != null ? "Fichier: ${_selectedFile!.path.split('/').last}" : "Aucun fichier sélectionné",
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ],
               ),
               SizedBox(height: 20),
+
               ElevatedButton(
                 onPressed: _uploadDocument,
-                child: _isLoading ? CircularProgressIndicator() : Text('Ajouter'),
+                child: _isLoading ? CircularProgressIndicator() : Text("Ajouter"),
               ),
+
               if (_errorMessage != null)
                 Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: Text(
-                    _errorMessage!,
-                    style: TextStyle(color: Colors.red),
-                  ),
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: Text(_errorMessage!, style: TextStyle(color: Colors.red)),
                 ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller, String labelText, {int maxLines = 1, TextInputType keyboardType = TextInputType.text}) {
+    return TextField(
+      controller: controller,
+      maxLines: maxLines,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        labelText: labelText,
+        fillColor: Colors.white,
+        filled: true,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }

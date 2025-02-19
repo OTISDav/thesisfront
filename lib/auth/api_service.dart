@@ -9,203 +9,161 @@ class ApiService {
   // Constructeur pour définir l'URL de base de l'API
   ApiService(this.baseUrl);
 
-  // Méthode pour sauvegarder le token d'authentification dans SharedPreferences
+  // Sauvegarde le token JWT dans SharedPreferences
   Future<void> _saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('auth_token', token);
   }
 
-  // Méthode pour récupérer le token d'authentification depuis SharedPreferences
+  // Récupère le token JWT
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('auth_token');
   }
 
-  // Méthode pour envoyer des requêtes POST, avec la possibilité de télécharger un fichier
-  Future<http.Response> post(String endpoint, Map<String, dynamic> data, {File? file}) async {
-    final token = await _getToken();
-    final url = Uri.parse('$baseUrl$endpoint');
-
-    if (file != null) {
-      // Si un fichier est fourni, utiliser MultipartRequest pour gérer le téléchargement de fichier
-      var request = http.MultipartRequest('POST', url)
-        ..headers['Authorization'] = 'Bearer $token'
-        ..fields['title'] = data['title']
-        ..fields['filiere'] = data['filiere']
-        ..fields['annee'] = data['annee'].toString()
-        ..fields['document_type'] = data['document_type']
-        ..fields['resume'] = data['resume']
-        ..files.add(await http.MultipartFile.fromPath('file', file.path));
-
-      var response = await request.send();
-      return await http.Response.fromStream(response);
-    } else {
-      // Si aucun fichier n'est fourni, envoyer une requête POST classique
-      return await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode(data),
-      );
-    }
+  // 📌 Publier un document avec fichier obligatoire
+  Future<void> publishDocument(Map<String, dynamic> documentData, {required File file}) async {
+  final token = await _getToken();
+  if (token == null) {
+    print('❌ Erreur: Token non disponible.');
+    return;
   }
 
-  // Méthode pour récupérer la liste des documents publiés par l'utilisateur
+  if (!file.existsSync()) {
+    print("❌ Le fichier sélectionné n'existe pas !");
+    return;
+  }
+
+  final url = Uri.parse('$baseUrl/api/theses/theses/');
+  
+  print('📤 Envoi du document à : $url');
+  print('🔑 Token utilisé : $token');
+  print('📂 Données envoyées : $documentData');
+  print('📄 Fichier sélectionné : ${file.path}');
+
+  try {
+    var request = http.MultipartRequest('POST', url)
+      ..headers['Authorization'] = 'Bearer $token'
+      ..fields['title'] = documentData['title']
+      ..fields['author'] = documentData['author']
+      ..fields['summary'] = documentData['summary']
+      ..fields['field_of_study'] = documentData['field_of_study']
+      ..fields['year'] = documentData['year'].toString()
+      ..files.add(await http.MultipartFile.fromPath('document', file.path)); // Clé `document`
+
+    var response = await request.send();
+    var responseData = await http.Response.fromStream(response);
+
+    print('🔄 Réponse du serveur: ${response.statusCode}');
+    print('💬 Message: ${responseData.body}');
+
+    if (response.statusCode == 201) {
+      print('✅ Thèse ajoutée avec succès');
+    } else {
+      print('❌ Erreur ajout thèse: ${responseData.body}');
+    }
+  } catch (e) {
+    print('❌ Exception lors de l\'ajout du document: $e');
+  }
+}
+
+
+  // 📌 Récupérer tous les documents
   Future<List<Map<String, dynamic>>> getDocuments() async {
     final token = await _getToken();
+    if (token == null) return [];
+
     final url = Uri.parse('$baseUrl/api/theses/theses/');
+    final response = await http.get(
+      url,
+      headers: {'Authorization': 'Bearer $token'},
+    );
 
-    try {
-      final response = await http.get(
-        url,
-        headers: {'Authorization': 'Bearer $token'},
-      );
-
-      if (response.statusCode == 200) {
-        List<dynamic> jsonResponse = jsonDecode(response.body);
-        return jsonResponse.map((item) => item as Map<String, dynamic>).toList();
-      } else {
-        throw Exception('Erreur ${response.statusCode}: ${response.reasonPhrase}');
-      }
-    } catch (e) {
-      print('Erreur lors du chargement des documents: $e');
-      rethrow;
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(jsonDecode(response.body));
+    } else {
+      print('❌ Erreur chargement documents: ${response.body}');
+      return [];
     }
   }
 
-  // Méthode pour récupérer la liste des favoris de l'utilisateur
-  Future<List<Map<String, dynamic>>> getFavoris() async {
-    final token = await _getToken();
-    final url = Uri.parse('$baseUrl/api/documents/favoris/list/');
+  // 📌 Ajouter un document aux favoris
+  // Future<void> addToFavorites(int thesisId) async {
+  //   final token = await _getToken();
+  //   if (token == null) return;
 
-    try {
-      final response = await http.get(
-        url,
-        headers: {'Authorization': 'Bearer $token'},
-      );
+  //   final url = Uri.parse('$baseUrl/api/theses/favorites/');
+  //   final response = await http.post(
+  //     url,
+  //     headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
+  //     body: jsonEncode({'thesis': thesisId}),
+  //   );
 
-      if (response.statusCode == 200) {
-        List<dynamic> jsonResponse = jsonDecode(response.body);
-        return jsonResponse.map((item) => item as Map<String, dynamic>).toList();
-      } else {
-        throw Exception('Erreur ${response.statusCode}: ${response.reasonPhrase}');
-      }
-    } catch (e) {
-      print('Erreur lors du chargement des documents: $e');
-      rethrow;
-    }
+  //   if (response.statusCode == 201) {
+  //     print('✅ Document ajouté aux favoris');
+  //   } else {
+  //     print('❌ Erreur ajout favoris: ${response.body}');
+  //   }
+  // }
+  
+  Future<void> addToFavorites(Map<String, dynamic> body) async {
+  final token = await _getToken();
+  if (token == null) {
+    print('🚨 Erreur: Token JWT manquant !');
+    return;
   }
 
-  // Méthode pour ajouter un document aux favoris de l'utilisateur
-Future<void> addToFavorites(Map<String, dynamic> body) async {
-  final token = await _getToken();  // Récupère le token JWT
   final url = Uri.parse('$baseUrl/api/theses/favorites/');
-  print('Données envoyées : $body');  // Log pour afficher les données envoyées
 
   final response = await http.post(
     url,
-    body: jsonEncode(body),  // Envoie les données avec la clé 'thesis'
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     },
+    body: jsonEncode(body), // Envoi du bon format JSON
   );
 
-  if (response.statusCode == 200 || response.statusCode == 201) {
-    print('Favori ajouté avec succès');
+  print('📤 Envoi favori : $body');
+  print('🔄 Réponse du serveur : ${response.statusCode}');
+
+  if (response.statusCode == 201) {
+    print('✅ Thèse ajoutée aux favoris avec succès !');
   } else {
-    print('Erreur lors de l\'ajout aux favoris: ${response.body}');
+    print('❌ Erreur ajout favori : ${response.body}');
+  }
+}
+
+// desactive favoris
+
+Future<void> removeFromFavorites(int favoriteId) async {
+  final token = await _getToken();
+  if (token == null) return;
+
+  final url = Uri.parse('$baseUrl/api/theses/favorites/$favoriteId/');
+  print("🔗 URL DELETE : $url");
+
+  final response = await http.delete(
+    url,
+    headers: {'Authorization': 'Bearer $token'},
+  );
+
+  if (response.statusCode == 204) {
+    print('✅ Favori supprimé avec succès');
+  } else {
+    print('❌ Erreur suppression favori: ${response.body}');
   }
 }
 
 
 
+//detail thesis
 
+Future<Map<String, dynamic>?> getThesisDetails(int thesisId) async {
+  final token = await _getToken();
+  final url = Uri.parse('$baseUrl/api/theses/theses/$thesisId/');
 
-
-
-
-  // Méthode pour récupérer la liste des annotations de l'utilisateur
-  Future<List<Map<String, dynamic>>> getAnnotations() async {
-    final token = await _getToken(); // Récupère le jeton d'authentification
-    final url = Uri.parse('$baseUrl/api/documents/annotation/list/');
-
-    final response = await http.get(
-      url,
-      headers: {
-        'Authorization': 'Bearer $token', // Ajoutez le jeton à l'en-tête
-      },
-    );
-
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonResponse = json.decode(response.body);
-      return jsonResponse.map((item) => item as Map<String, dynamic>).toList();
-    } else {
-      throw Exception('Erreur lors de la récupération des annotations');
-    }
-  }
-
-  // Méthode pour ajouter une annotation à un document
-  Future<void> addAnnotation(int documentId, String annotation) async {
-    final url = Uri.parse('$baseUrl/api/documents/annotation/add/');
-  
-    final response = await http.post(
-      url,
-      body: jsonEncode({
-        'document_id': documentId.toString(),
-        'annotation': annotation,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${await _getToken()}',
-      },
-    );
-
-    if (response.statusCode != 201) {
-      throw Exception('Erreur lors de l\'ajout de l\'annotation');
-    }
-  }
-
-  // Méthode pour enregistrer un téléchargement de document
-  Future<void> registerDownload(String fileUrl) async {
-    final url = Uri.parse('$baseUrl/documents/<int:pk>/');
-    final response = await http.post(
-      url,
-      body: jsonEncode({'file_url': fileUrl}),
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ${await _getToken()}'},
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception('Erreur lors de l\'enregistrement du téléchargement');
-    }
-  }
-
-  // Méthode pour récupérer les statistiques de l'utilisateur (nombre de favoris, likes, etc.)
-  Future<void> fetchDocumentCounts() async {
-    final url = Uri.parse('$baseUrl/api/documents/counts/');
-  
-    final response = await http.get(
-      url,
-      headers: {
-        'Authorization': 'Bearer ${await _getToken()}',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      // Mettre à jour l'état de votre application avec les nouvelles données
-    } else {
-      throw Exception('Erreur lors de la récupération des données');
-    }
-  }
-
-  // Méthode pour récupérer le profil de l'utilisateur
-  Future<Map<String, dynamic>> getUserProfile() async {
-    final token = await _getToken();
-    final url = Uri.parse('$baseUrl/api/accounts/profile/');
-
+  try {
     final response = await http.get(
       url,
       headers: {'Authorization': 'Bearer $token'},
@@ -214,7 +172,109 @@ Future<void> addToFavorites(Map<String, dynamic> body) async {
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      throw Exception('Erreur ${response.statusCode}: ${response.reasonPhrase}');
+      print('❌ Erreur récupération thèse : ${response.body}');
+      return null;
+    }
+  } catch (e) {
+    print('❌ Erreur requête thèse : $e');
+    return null;
+  }
+}
+
+
+  // 📌 Récupérer la liste des annotations
+  Future<List<Map<String, dynamic>>> getAnnotations() async {
+    final token = await _getToken();
+    if (token == null) return [];
+
+    final url = Uri.parse('$baseUrl/api/theses/annotations/');
+    final response = await http.get(
+      url,
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(jsonDecode(response.body));
+    } else {
+      print('❌ Erreur récupération annotations: ${response.body}');
+      return [];
     }
   }
+
+// 📌 Récupérer la liste des favoris
+Future<List<Map<String, dynamic>>> getFavoris() async {
+  final token = await _getToken();
+  if (token == null) return [];
+
+  final url = Uri.parse('$baseUrl/api/theses/favorites/'); // Assurez-vous que l'URL est correcte pour les favoris
+  final response = await http.get(
+    url,
+    headers: {'Authorization': 'Bearer $token'},
+  );
+
+  if (response.statusCode == 200) {
+    return List<Map<String, dynamic>>.from(jsonDecode(response.body));
+  } else {
+    print('❌ Erreur récupération favoris: ${response.body}');
+    return [];
+  }
+}
+
+
+  // 📌 Ajouter une annotation à un document
+  Future<void> addAnnotation(int thesisId, String note) async {
+    final token = await _getToken();
+    if (token == null) return;
+
+    final url = Uri.parse('$baseUrl/api/theses/annotations/');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
+      body: jsonEncode({'thesis': thesisId, 'note': note}),
+    );
+
+    if (response.statusCode == 201) {
+      print('✅ Annotation ajoutée');
+    } else {
+      print('❌ Erreur ajout annotation: ${response.body}');
+    }
+  }
+
+  // 📌 Télécharger un document
+  Future<void> registerDownload(int thesisId) async {
+    final token = await _getToken();
+    if (token == null) return;
+
+    final url = Uri.parse('$baseUrl/api/theses/download/$thesisId/');
+    final response = await http.post(
+      url,
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode == 200) {
+      print('✅ Téléchargement enregistré');
+    } else {
+      print('❌ Erreur téléchargement: ${response.body}');
+    }
+  }
+
+  // 📌 Récupérer le profil utilisateur
+  Future<Map<String, dynamic>?> getUserProfile() async {
+    final token = await _getToken();
+    if (token == null) return null;
+
+    final url = Uri.parse('$baseUrl/api/users/profile/');
+    final response = await http.get(
+      url,
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      print('❌ Erreur profil utilisateur: ${response.body}');
+      return null; // Retourne null en cas d'erreur
+    }
+  }
+
 }

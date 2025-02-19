@@ -13,7 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   provider: ^6.1.2
   http: ^1.2.1
-  url_launcher: ^6.0.9
+  url_launcher: ^6.1.14
   flutter_secure_storage: ^6.0.0
   dio: ^5.0.0
   path_provider: ^2.0.11
@@ -23,6 +23,7 @@ dependencies:
   image_picker: ^0.8.5+3
   file_picker: ^5.1.1
   email_validator: ^2.0.1
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
@@ -38,3 +39,10 @@ flutter:
     - family: JosefinSans
       fonts:
         - asset: assets/fonts/JosefinSans-Regular.ttf
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons.png" # Remplacez par votre image
+  adaptive_icon_background: "#ffffff" # Couleur de fond (pour Android 8+)
+  adaptive_icon_foreground: "assets/icons.png" # Même image ou une version simplifiée

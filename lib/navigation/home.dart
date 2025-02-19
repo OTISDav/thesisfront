@@ -21,29 +21,29 @@ class _HomePageState extends State<HomePage> {
     _loadDocuments();
   }
 
-Future<void> _loadDocuments() async {
-  try {
-    final documents = await apiService.getDocuments();
-    print('Documents reçus : $documents'); // Ajoutez cette ligne pour déboguer
-    setState(() {
-      pdfFiles = documents.map((doc) {
-        return {
-          'title': doc['title'] ?? '',
-          'file': doc['file'] ?? '',
-          'sammary': doc['sammary'] ?? '',
-          'summary': doc['summary'] ?? '',
-        };
-      }).toList();
-      filteredPdfFiles = pdfFiles;
-    });
-  } catch (e) {
-    print('Erreur lors du chargement des documents: $e');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Erreur lors du chargement des documents')),
-    );
+  Future<void> _loadDocuments() async {
+    try {
+      final documents = await apiService.getDocuments();
+      print('Documents reçus : $documents'); // Ajoutez cette ligne pour déboguer
+      setState(() {
+        pdfFiles = documents.map((doc) {
+          return {
+            'id': doc['id'] ?? 0,
+            'title': doc['title'] ?? '',
+            'file': doc['file'] ?? '',
+            'sammary': doc['sammary'] ?? '',
+            'summary': doc['summary'] ?? '',
+          };
+        }).toList();
+        filteredPdfFiles = pdfFiles;
+      });
+    } catch (e) {
+      print('Erreur lors du chargement des documents: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erreur lors du chargement des documents')),
+      );
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -187,12 +187,10 @@ Future<void> _loadDocuments() async {
                   icon: Icon(Icons.file_download, color: Colors.white70),
                   onPressed: () async {
                     try {
-                      await _handleDownload(fileUrl);
+                      await _handleDownload(fileUrl, documentId);  // Passez aussi le documentId ici
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Erreur lors du téléchargement: $e'),
-                        ),
+                        SnackBar(content: Text('Erreur lors du téléchargement: $e')),
                       );
                     }
                   },
@@ -219,38 +217,61 @@ Future<void> _loadDocuments() async {
     );
   }
 
-  Future<void> _handleDownload(String fileUrl) async {
+  Future<void> _handleDownload(String fileUrl, int thesisId) async {
     if (await canLaunch(fileUrl)) {
       await launch(fileUrl);
-      await apiService.registerDownload(fileUrl); // Enregistre le téléchargement
+      await apiService.registerDownload(thesisId);  // Utilisation de thesisId (int)
     } else {
       throw Exception('Impossible d\'ouvrir le fichier');
     }
   }
 
-void _handleFavorite(int? documentId) {
-  print("ID du document : $documentId");  // Log la valeur du documentId
+  // void _handleFavorite(int documentId) {
+  //   print("ID du document : $documentId");  // Log la valeur du documentId
+
+  //   if (documentId == null || documentId <= 0) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('ID de document invalide')),
+  //     );
+  //     return;
+  //   }
+
+  //   // Si addToFavorites attend un entier, passez simplement documentId
+  //   apiService.addToFavorites(documentId).then((_) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('Ajouté aux favoris')),
+  //     );
+  //   }).catchError((error) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('Erreur: $error')),
+  //     );
+  //   });
+  // }
+
+  void _handleFavorite(int documentId) {
+  print("📌 ID du document avant envoi : $documentId");  // Debugging
 
   if (documentId == null || documentId <= 0) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('ID de document invalide')),
+      SnackBar(content: Text('⚠️ ID de document invalide : $documentId')),
     );
     return;
   }
 
-  // Envoi à l'API avec la clé 'thesis' comme attendu par l'API
-  apiService.addToFavorites({'thesis': documentId}).then((_) {
+  // Préparer l'objet JSON attendu
+  Map<String, dynamic> data = {"thesis": documentId};
+  print("📤 Envoi aux favoris : $data");  // Vérifier la requête envoyée
+
+  apiService.addToFavorites(data).then((_) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Ajouté aux favoris')),
+      SnackBar(content: Text('✅ Ajouté aux favoris')),
     );
   }).catchError((error) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Erreur: $error')),
+      SnackBar(content: Text('❌ Erreur ajout favoris : $error')),
     );
   });
 }
-
-
 
 
 

@@ -24,16 +24,16 @@ class ConnexionPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 35),
-            const Center(
-              child: Text(
-                'Méthode de Connexion',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Color.fromRGBO(244, 245, 247, 1),
-                ),
-              ),
-            ),
+            // const SizedBox(height: 35),
+            // const Center(
+            //   child: Text(
+            //     'Méthode de Connexion',
+            //     style: TextStyle(
+            //       fontSize: 20,
+            //       color: Color.fromRGBO(244, 245, 247, 1),
+            //     ),
+            //   ),
+            // ),
             const SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
@@ -58,36 +58,36 @@ class ConnexionPage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 35),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: Image.asset('assets/google.png'), // Assurez-vous que l'image est dans le dossier assets
-                  iconSize: 50,
-                  onPressed: () {
-                    // Logique de connexion avec Google
-                  },
-                ),
-                const SizedBox(width: 20),
-                IconButton(
-                  icon: Icon(Icons.phone_android, color: Colors.white),
-                  iconSize: 50,
-                  onPressed: () {
-                    // Logique de connexion avec téléphone
-                  },
-                ),
-              ],
-            ),
+            // const SizedBox(height: 35),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+              // children: [
+                // IconButton(
+                //   icon: Image.asset('assets/google.png'), // Assurez-vous que l'image est dans le dossier assets
+                //   iconSize: 50,
+                //   onPressed: () {
+                //     // Logique de connexion avec Google
+                //   },
+                // ),
+                // const SizedBox(width: 20),
+                // IconButton(
+                //   icon: Icon(Icons.phone_android, color: Colors.white),
+                //   iconSize: 50,
+                //   onPressed: () {
+                //     // Logique de connexion avec téléphone
+                //   },
+                // ),
+            //   ],
+            // ),
             const SizedBox(height: 40),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Tu n\'as pas de compte',
+                  'Tu n\'as pas de compte ?',
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 20,
                     color: Color.fromRGBO(223, 227, 236, 1),
                   ),
                 ),
@@ -101,19 +101,20 @@ class ConnexionPage extends StatelessWidget {
                   child: const Text(
                     'Clique ici',
                     style: TextStyle(
-                      color: Colors.blue,
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 157, 170, 176),
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline,
                     ),
                   ),
                 ),
-                const Text(
-                  '?',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Color.fromRGBO(223, 227, 236, 1),
-                  ),
-                ),
+                // const Text(
+                //   '?',
+                //   style: TextStyle(
+                //     fontSize: 20,
+                //     color: Color.fromRGBO(223, 227, 236, 1),
+                //   ),
+                // ),
               ],
             ),
           ],
