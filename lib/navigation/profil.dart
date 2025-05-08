@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../auth/api_service.dart';
 
 class ProfilPage extends StatelessWidget {
-  final ApiService apiService = ApiService('https://80bf-2c0f-f0f8-871-f100-dcd7-53c8-f6af-f65b.ngrok-free.app'); // Remplacez par votre URL d'API
+  final ApiService apiService = ApiService('https://ubuntuthesisbackend.onrender.com'); // Remplacez par votre URL d'API
 
   @override
   Widget build(BuildContext context) {

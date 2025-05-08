@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'home.dart';
 import 'favoris.dart';
 import 'ajout.dart';
-import 'dashbord.dart';
+// import 'dashbord.dart';
 import 'profil.dart';
+import 'annotation.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -18,8 +19,10 @@ class _MyHomePageState extends State<MyHomePage> {
     HomePage(),              // Page d'accueil
     FavorisPage(),           // Page des favoris
     AddDocumentPage(),       // Page d'ajout de document
-    DashboardPage(),         // Page de tableau de bord
+    AnnotationListPage(),
+    // DashboardPage(),         // Page de tableau de bord
     ProfilPage(),            // Page de profil
+
   ];
 
   void _onItemTapped(int index) {

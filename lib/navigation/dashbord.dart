@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'annotation.dart';
+import 'annotation.dart'; // Assurez-vous que ce fichier existe et est correct
 
 class DashboardPage extends StatelessWidget {
   // Méthode pour récupérer les statistiques des documents (favoris, annotations, téléchargements)
@@ -11,7 +11,7 @@ class DashboardPage extends StatelessWidget {
     final token = prefs.getString('auth_token'); // Récupérez le jeton d'authentification
 
     final response = await http.get(
-      Uri.parse('https://86b9-2c0f-f0f8-816-5c00-307a-4893-16ef-cc9f.ngrok-free.app/api/documents/counts/'),
+      Uri.parse('https://ubuntuthesisbackend.onrender.com/api/counts/'),
       headers: {
         'Authorization': 'Bearer $token', // Ajoutez le jeton à l'en-tête
       },
@@ -19,7 +19,6 @@ class DashboardPage extends StatelessWidget {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-
       return {
         'annotations': data['jaimes_count'] ?? 0,
         'telechargements': data['telechargements_count'] ?? 0,
@@ -35,7 +34,7 @@ class DashboardPage extends StatelessWidget {
     final token = prefs.getString('auth_token'); // Récupérez le jeton d'authentification
 
     final response = await http.get(
-      Uri.parse('https://86b9-2c0f-f0f8-816-5c00-307a-4893-16ef-cc9f.ngrok-free.app/api/documents/user/documents/'),
+      Uri.parse('https://ubuntuthesisbackend.onrender.com/api/documents/'), // ⚠️ URL potentiellement incorrecte, à vérifier !
       headers: {
         'Authorization': 'Bearer $token', // Ajoutez le jeton à l'en-tête
       },
@@ -64,7 +63,7 @@ class DashboardPage extends StatelessWidget {
                 return Center(child: Text('Erreur: ${snapshot.error}'));
               } else {
                 final counts = snapshot.data ?? {};
-          
+
                 return ListView(
                   padding: EdgeInsets.all(16.0),
                   children: <Widget>[
@@ -77,7 +76,7 @@ class DashboardPage extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AnnotationListPage()),
+                          MaterialPageRoute(builder: (context) => AnnotationListPage()), // Assurez-vous que AnnotationListPage est correctement implémenté
                         );
                       },
                     ),
@@ -176,8 +175,8 @@ class DashboardPage extends StatelessWidget {
                     return Card(
                       elevation: 4.0,
                       child: ListTile(
-                        title: Text(document['title']),
-                        subtitle: Text('Auteur: ${document['author']}'),
+                        title: Text(document['title'] ?? 'Titre inconnu'), // Gestion des valeurs nulles
+                        subtitle: Text('Auteur: ${document['author'] ?? 'Auteur inconnu'}'), // Gestion des valeurs nulles
                         trailing: Icon(Icons.arrow_forward_ios),
                         onTap: () {
                           // Action à effectuer lors du tap sur un document

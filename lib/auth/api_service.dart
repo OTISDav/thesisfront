@@ -134,7 +134,7 @@ class ApiService {
   }
 }
 
-// desactive favoris
+//desactive favoris
 
 Future<void> removeFromFavorites(int favoriteId) async {
   final token = await _getToken();
@@ -201,6 +201,44 @@ Future<Map<String, dynamic>?> getThesisDetails(int thesisId) async {
     }
   }
 
+// 📌 Modifier une annotation
+Future<void> updateAnnotation(int annotationId, String newNote, int thesisId) async {
+  final token = await _getToken();
+  if (token == null) return;
+
+  final url = Uri.parse('$baseUrl/api/theses/annotations/$annotationId/');
+  final response = await http.put(
+    url,
+    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
+    body: jsonEncode({'note': newNote, 'thesis': thesisId}), // Incluez thesisId ici
+  );
+
+  if (response.statusCode == 200) {
+    print('✅ Annotation modifiée avec succès');
+  } else {
+    print('❌ Erreur modification annotation: ${response.body}');
+  }
+}
+
+// 📌 Supprimer une annotation
+Future<void> deleteAnnotation(int annotationId) async {
+  final token = await _getToken();
+  if (token == null) return;
+
+  final url = Uri.parse('$baseUrl/api/theses/annotations/$annotationId/');
+  final response = await http.delete(
+    url,
+    headers: {'Authorization': 'Bearer $token'},
+  );
+
+  if (response.statusCode == 204) {
+    print('✅ Annotation supprimée avec succès');
+  } else {
+    print('❌ Erreur suppression annotation: ${response.body}');
+  }
+}
+
+
 // 📌 Récupérer la liste des favoris
 Future<List<Map<String, dynamic>>> getFavoris() async {
   final token = await _getToken();
@@ -263,7 +301,7 @@ Future<List<Map<String, dynamic>>> getFavoris() async {
     final token = await _getToken();
     if (token == null) return null;
 
-    final url = Uri.parse('$baseUrl/api/users/profile/');
+    final url = Uri.parse('$baseUrl/api/users/auth/profile/');
     final response = await http.get(
       url,
       headers: {'Authorization': 'Bearer $token'},

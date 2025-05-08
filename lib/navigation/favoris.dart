@@ -17,59 +17,37 @@ class _FavorisPageState extends State<FavorisPage> {
     _loadFavoris();
   }
 
-  // Future<void> _loadFavoris() async {
-  //   try {
-  //     final favorisList = await apiService.getFavoris();
-  //     print('📌 Favoris reçus : $favorisList');  // Debugging
-
-  //     setState(() {
-  //       favoris = favorisList.map((fav) {
-  //         return {
-  //           'id': fav['thesis']['id'] ?? 0,  // Récupérer l'ID du document favori
-  //           'title': fav['thesis']['title'] ?? '',
-  //           'file': fav['thesis']['document'] ?? '', // Vérifie que 'document' est la bonne clé
-  //           'summary': fav['thesis']['summary'] ?? '',
-  //         };
-  //       }).toList();
-  //     });
-  //   } catch (e) {
-  //     print('❌ Erreur chargement favoris: $e');
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('Erreur lors du chargement des favoris')),
-  //     );
-  //   }
-  // }
-
   Future<void> _loadFavoris() async {
-  try {
-    final favorisList = await apiService.getFavoris();
-    print("📌 Favoris reçus : $favorisList");
+    try {
+      final favorisList = await apiService.getFavoris();
+      print("📌 Favoris reçus (brut) : $favorisList");
 
-    List<Map<String, dynamic>> favorisDetails = [];
+      List<Map<String, dynamic>> favorisDetails = [];
 
-    for (var favori in favorisList) {
-      int thesisId = favori["thesis"]; // Récupère l'ID de la thèse
+      for (var favori in favorisList) {
+        int thesisId = favori["thesis"]; // Récupère l'ID de la thèse
+        int favoriteId = favori["id"]; // Récupère l'ID du favori
 
-      // 🔍 Obtenir les détails de la thèse associée
-      Map<String, dynamic>? thesisDetails = await apiService.getThesisDetails(thesisId);
+        // 🔍 Obtenir les détails de la thèse associée
+        Map<String, dynamic>? thesisDetails = await apiService.getThesisDetails(thesisId);
 
-      if (thesisDetails != null) {
-        favorisDetails.add(thesisDetails);
+        if (thesisDetails != null) {
+          thesisDetails['favorite_id'] = favoriteId; // Stocker l'ID du favori
+          favorisDetails.add(thesisDetails);
+        }
       }
+
+      setState(() {
+        favoris = favorisDetails; // Met à jour la liste avec les thèses complètes et l'ID du favori
+        print("📌 Favoris disponibles (traités) : $favoris");
+      });
+    } catch (e) {
+      print('❌ Erreur chargement favoris: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erreur lors du chargement des favoris')),
+      );
     }
-
-    setState(() {
-      favoris = favorisDetails; // Met à jour la liste avec les thèses complètes
-    });
-  } catch (e) {
-    print('❌ Erreur chargement favoris: $e');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Erreur lors du chargement des favoris')),
-    );
   }
-}
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -111,9 +89,10 @@ class _FavorisPageState extends State<FavorisPage> {
                           return _buildPdfCard(
                             context,
                             document['title'] ?? '',
-                            document['file'] ?? '',
+                            document['document'] ?? '',
                             document['summary'] ?? '',
                             document['id'] ?? 0,
+                            document['favorite_id'] as int?, // Passer l'ID du favori
                           );
                         },
                       ),
@@ -131,6 +110,7 @@ class _FavorisPageState extends State<FavorisPage> {
     String fileUrl,
     String resume,
     int documentId,
+    int? favoriteId, // Accepter l'ID du favori
   ) {
     return Card(
       elevation: 6,
@@ -186,7 +166,13 @@ class _FavorisPageState extends State<FavorisPage> {
                 IconButton(
                   icon: Icon(Icons.favorite, color: Colors.redAccent),
                   onPressed: () {
-                    _handleRemoveFavorite(documentId);
+                    if (favoriteId != null) {
+                      _handleRemoveFavorite(favoriteId); // Utiliser l'ID du favori
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Erreur: ID de favori non trouvé')),
+                      );
+                    }
                   },
                 ),
               ],
@@ -206,44 +192,21 @@ class _FavorisPageState extends State<FavorisPage> {
     }
   }
 
-  // void _handleRemoveFavorite(int documentId) {
-  //   print("🗑 Suppression du favori avec ID : $documentId");
-
-  //   apiService.removeFromFavorites(documentId).then((_) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('🚮 Favori supprimé')),
-  //     );
-  //     _loadFavoris(); // Rafraîchir la liste des favoris
-  //   }).catchError((error) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('❌ Erreur suppression favoris: $error')),
-  //     );
-  //   });
-  // }
-
   void _handleRemoveFavorite(int favoriteId) {
-  print("📌 Favoris disponibles : $favoris");
-  print("🗑 Suppression du favori avec ID : $favoriteId");
+    print("🗑 Tentative de suppression du favori avec l'ID du favori : $favoriteId");
 
-  if (favoriteId == null || favoriteId <= 0) {
-    print("⚠️ Erreur : ID de favori invalide !");
-    return;
-  }
-
-  apiService.removeFromFavorites(favoriteId).then((_) {
-    setState(() {
-      favoris.removeWhere((fav) => fav['id'] == favoriteId); // Mise à jour locale
+    apiService.removeFromFavorites(favoriteId).then((_) {
+      setState(() {
+        favoris.removeWhere((fav) => fav['favorite_id'] == favoriteId); // Supprimer par l'ID du favori
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('✅ Favori supprimé')),
+      );
+    }).catchError((error) {
+      print("❌ Erreur suppression favori: $error");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('❌ Erreur suppression favori: $error')),
+      );
     });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('✅ Favori supprimé')),
-    );
-  }).catchError((error) {
-    print("❌ Erreur suppression favori: $error");
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('❌ Erreur suppression favori: $error')),
-    );
-  });
-}
-
+  }
 }

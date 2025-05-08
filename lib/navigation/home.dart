@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../auth/api_service.dart'; // Assurez-vous que le chemin d'importation est correct
+import 'dart:convert'; // Pour jsonDecode
 import 'profil.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,15 +25,24 @@ class _HomePageState extends State<HomePage> {
   Future<void> _loadDocuments() async {
     try {
       final documents = await apiService.getDocuments();
-      print('Documents reçus : $documents'); // Ajoutez cette ligne pour déboguer
+      final favorisList = await apiService.getFavoris(); // Récupérer la liste des favoris
+
+      print('Documents reçus : $documents');
+      print('Favoris reçus : $favorisList');
+
+      Set<int> favorisIds =
+          favorisList.map((fav) => fav['thesis'] as int).toSet(); // Créer un Set des IDs de thèses favorites
+
       setState(() {
         pdfFiles = documents.map((doc) {
           return {
             'id': doc['id'] ?? 0,
             'title': doc['title'] ?? '',
-            'file': doc['file'] ?? '',
+            // ✅ Correction ici : construction de l'URL de téléchargement
+            'file': '${apiService.baseUrl}/api/documents/memoire/download/${doc['id']}/',
             'sammary': doc['sammary'] ?? '',
             'summary': doc['summary'] ?? '',
+            'isFavorite': favorisIds.contains(doc['id']), // Vérifier si l'ID du document est dans les favoris
           };
         }).toList();
         filteredPdfFiles = pdfFiles;
@@ -72,7 +82,8 @@ class _HomePageState extends State<HomePage> {
                         );
                       },
                       child: CircleAvatar(
-                        backgroundImage: NetworkImage('URL_DE_L_AVATAR'), // Remplacez par l'URL de l'avatar
+                        // ✅ Correction ici : Remplacez 'URL_DE_L_AVATAR' par une URL valide
+                        backgroundImage: NetworkImage('https://via.placeholder.com/150'), // Utilisez une URL par défaut ou récupérez l'URL réelle
                         radius: 20.0,
                       ),
                     ),
@@ -117,7 +128,8 @@ class _HomePageState extends State<HomePage> {
                       document['title'] ?? '',
                       document['file'] ?? '',
                       document['summary'] ?? '',
-                      document['id'] ?? 0, // Assurez-vous que documentId n'est jamais null
+                      document['id'] ?? 0,
+                      document['isFavorite'] ?? false, // Passer l'état favori
                     );
                   },
                 ),
@@ -132,7 +144,8 @@ class _HomePageState extends State<HomePage> {
   void filterList() {
     setState(() {
       filteredPdfFiles = pdfFiles.where((pdf) {
-        bool byName = (pdf['title'] ?? '').toLowerCase().contains(searchController.text.toLowerCase());
+        bool byName =
+            (pdf['title'] ?? '').toLowerCase().contains(searchController.text.toLowerCase());
         return byName;
       }).toList();
     });
@@ -144,6 +157,7 @@ class _HomePageState extends State<HomePage> {
     String fileUrl,
     String resume,
     int documentId,
+    bool isFavorite, // Ajouter un paramètre pour l'état favori
   ) {
     return Card(
       elevation: 6,
@@ -187,7 +201,7 @@ class _HomePageState extends State<HomePage> {
                   icon: Icon(Icons.file_download, color: Colors.white70),
                   onPressed: () async {
                     try {
-                      await _handleDownload(fileUrl, documentId);  // Passez aussi le documentId ici
+                      await _handleDownload(fileUrl, documentId);
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Erreur lors du téléchargement: $e')),
@@ -197,9 +211,27 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: 16),
                 IconButton(
-                  icon: Icon(Icons.favorite_border, color: Colors.redAccent),
+                  icon: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border, // Choisir l'icône en fonction de l'état
+                    color: Colors.redAccent,
+                  ),
                   onPressed: () {
                     _handleFavorite(documentId);
+                    setState(() {
+                      // Inverser l'état favori localement pour un retour visuel immédiat
+                      pdfFiles = pdfFiles.map((doc) {
+                        if (doc['id'] == documentId) {
+                          return {...doc, 'isFavorite': !isFavorite};
+                        }
+                        return doc;
+                      }).toList();
+                      filteredPdfFiles = filteredPdfFiles.map((doc) {
+                        if (doc['id'] == documentId) {
+                          return {...doc, 'isFavorite': !isFavorite};
+                        }
+                        return doc;
+                      }).toList();
+                    });
                   },
                 ),
                 SizedBox(height: 16),
@@ -220,62 +252,36 @@ class _HomePageState extends State<HomePage> {
   Future<void> _handleDownload(String fileUrl, int thesisId) async {
     if (await canLaunch(fileUrl)) {
       await launch(fileUrl);
-      await apiService.registerDownload(thesisId);  // Utilisation de thesisId (int)
+      await apiService.registerDownload(thesisId); // Utilisation de thesisId (int)
     } else {
       throw Exception('Impossible d\'ouvrir le fichier');
     }
   }
 
-  // void _handleFavorite(int documentId) {
-  //   print("ID du document : $documentId");  // Log la valeur du documentId
-
-  //   if (documentId == null || documentId <= 0) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('ID de document invalide')),
-  //     );
-  //     return;
-  //   }
-
-  //   // Si addToFavorites attend un entier, passez simplement documentId
-  //   apiService.addToFavorites(documentId).then((_) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('Ajouté aux favoris')),
-  //     );
-  //   }).catchError((error) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('Erreur: $error')),
-  //     );
-  //   });
-  // }
-
   void _handleFavorite(int documentId) {
-  print("📌 ID du document avant envoi : $documentId");  // Debugging
+    print("📌 ID du document avant envoi : $documentId"); // Debugging
 
-  if (documentId == null || documentId <= 0) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('⚠️ ID de document invalide : $documentId')),
-    );
-    return;
+    if (documentId == null || documentId <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('⚠️ ID de document invalide : $documentId')),
+      );
+      return;
+    }
+
+    // Préparer l'objet JSON attendu
+    Map<String, dynamic> data = {"thesis": documentId};
+    print("📤 Envoi aux favoris : $data"); // Vérifier la requête envoyée
+
+    apiService.addToFavorites(data).then((_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('✅ Ajouté aux favoris')),
+      );
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('❌ Erreur ajout favoris : $error')),
+      );
+    });
   }
-
-  // Préparer l'objet JSON attendu
-  Map<String, dynamic> data = {"thesis": documentId};
-  print("📤 Envoi aux favoris : $data");  // Vérifier la requête envoyée
-
-  apiService.addToFavorites(data).then((_) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('✅ Ajouté aux favoris')),
-    );
-  }).catchError((error) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('❌ Erreur ajout favoris : $error')),
-    );
-  });
-}
-
-
-
-
 
   void _showAnnotationDialog(BuildContext context, int documentId) {
     TextEditingController annotationController = TextEditingController();
