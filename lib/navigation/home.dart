@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../auth/api_service.dart'; // Assurez-vous que le chemin d'importation est correct
-import 'dart:convert'; // Pour jsonDecode
+import '../auth/api_service.dart'; 
+import 'dart:convert'; 
 import 'profil.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,10 +16,28 @@ class _HomePageState extends State<HomePage> {
 
   ApiService apiService = ApiService('https://ubuntuthesisbackend.onrender.com'); // Remplacez par votre URL d'API
 
+  String? profilePictureUrl; // <--- Stocke ici l'URL de la photo
+
   @override
   void initState() {
     super.initState();
+    _loadUserProfile();
     _loadDocuments();
+  }
+
+
+    Future<void> _loadUserProfile() async {
+    final profileData = await apiService.getUserProfile();
+    if (profileData != null) {
+      String? picPath = profileData['profile_picture'];
+      if (picPath != null && picPath.isNotEmpty) {
+        // Construis l'URL complète Cloudinary si tu stockes un chemin relatif
+        setState(() {
+          profilePictureUrl = 'https://res.cloudinary.com/dkk95mjgt/$picPath';
+          // Remplace 'ton_cloud_name' par le nom de ton compte Cloudinary
+        });
+      }
+    }
   }
 
   Future<void> _loadDocuments() async {
@@ -38,8 +56,9 @@ class _HomePageState extends State<HomePage> {
           return {
             'id': doc['id'] ?? 0,
             'title': doc['title'] ?? '',
-            // ✅ Correction ici : construction de l'URL de téléchargement
-            'file': '${apiService.baseUrl}/api/documents/memoire/download/${doc['id']}/',
+            'file': doc['document'] != null && !doc['document'].endsWith('.pdf')
+            ? '${doc['document']}.pdf'
+            : doc['document'],
             'sammary': doc['sammary'] ?? '',
             'summary': doc['summary'] ?? '',
             'isFavorite': favorisIds.contains(doc['id']), // Vérifier si l'ID du document est dans les favoris
@@ -82,9 +101,10 @@ class _HomePageState extends State<HomePage> {
                         );
                       },
                       child: CircleAvatar(
-                        // ✅ Correction ici : Remplacez 'URL_DE_L_AVATAR' par une URL valide
-                        backgroundImage: NetworkImage('https://via.placeholder.com/150'), // Utilisez une URL par défaut ou récupérez l'URL réelle
                         radius: 20.0,
+                        backgroundImage: profilePictureUrl != null
+                            ? NetworkImage(profilePictureUrl!)
+                            : NetworkImage('https://via.placeholder.com/150'),
                       ),
                     ),
                     IconButton(
@@ -249,14 +269,15 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+
   Future<void> _handleDownload(String fileUrl, int thesisId) async {
-    if (await canLaunch(fileUrl)) {
-      await launch(fileUrl);
-      await apiService.registerDownload(thesisId); // Utilisation de thesisId (int)
-    } else {
-      throw Exception('Impossible d\'ouvrir le fichier');
-    }
+  try {
+    await apiService.downloadPdfWithHttp(fileUrl, "thesis_$thesisId");
+  } catch (e) {
+    print('Erreur lors du téléchargement : $e');
   }
+}
+
 
   void _handleFavorite(int documentId) {
     print("📌 ID du document avant envoi : $documentId"); // Debugging

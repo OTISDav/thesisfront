@@ -5,13 +5,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'annotation.dart'; // Assurez-vous que ce fichier existe et est correct
 
 class DashboardPage extends StatelessWidget {
+  final String _baseUrl = 'https://ubuntuthesisbackend.onrender.com/api';
+
   // Méthode pour récupérer les statistiques des documents (favoris, annotations, téléchargements)
   Future<Map<String, int>> fetchCounts() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('auth_token'); // Récupérez le jeton d'authentification
 
     final response = await http.get(
-      Uri.parse('https://ubuntuthesisbackend.onrender.com/api/counts/'),
+      Uri.parse('$_baseUrl/counts/'),
       headers: {
         'Authorization': 'Bearer $token', // Ajoutez le jeton à l'en-tête
       },
@@ -34,7 +36,7 @@ class DashboardPage extends StatelessWidget {
     final token = prefs.getString('auth_token'); // Récupérez le jeton d'authentification
 
     final response = await http.get(
-      Uri.parse('https://ubuntuthesisbackend.onrender.com/api/documents/'), // ⚠️ URL potentiellement incorrecte, à vérifier !
+      Uri.parse('$_baseUrl/documents/'),
       headers: {
         'Authorization': 'Bearer $token', // Ajoutez le jeton à l'en-tête
       },
@@ -156,7 +158,7 @@ class DashboardPage extends StatelessWidget {
           final documents = snapshot.data ?? [];
 
           if (documents.isEmpty) {
-            return Center(child: Text("Vous n'avez publié aucun document"));
+            return Center(child: Text("Vous n'avez publié aucun document", style: TextStyle(color: Colors.white)));
           } else {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../connexion/sign_login.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../auth/api_service.dart';
+import '../navigation/change_password_page.dart';
+import '../navigation/EditProfilePage.dart';
 
 class ProfilPage extends StatelessWidget {
   final ApiService apiService = ApiService('https://ubuntuthesisbackend.onrender.com'); // Remplacez par votre URL d'API
@@ -22,7 +24,12 @@ class ProfilPage extends StatelessWidget {
               return Center(child: Text('Aucune donnée disponible'));
             } else {
               final user = snapshot.data!;
-              final profileImageUrl = user['profile_image'] ?? 'https://example.com/default_profile_image.png';
+              // final profileImageUrl = user['profile_image'] ?? 'https://example.com/default_profile_image.png';
+              final rawProfileImage = user['profile_picture'] ?? '';
+              final profileImageUrl = rawProfileImage.isNotEmpty
+                  ? 'https://res.cloudinary.com/dkk95mjgt/$rawProfileImage'
+                  : 'https://example.com/default_profile_image.png';
+
               final userName = user['username'] ?? 'Nom non disponible';
               final userEmail = user['email'] ?? 'Email non disponible';
       
@@ -59,18 +66,27 @@ class ProfilPage extends StatelessWidget {
                     title: Text('Modifier le profil'),
                     textColor: Colors.white,
                     onTap: () {
-                      // Navigation pour modifier le profil
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditProfilePage(apiService: ApiService('https://ubuntuthesisbackend.onrender.com')),
+                        ),
+                      );
                     },
                   ),
                   SizedBox(height: 8),
                   ListTile(
-                    leading: Icon(Icons.lock),
-                    title: Text('Changer le mot de passe'),
+                    leading: const Icon(Icons.lock),
+                    title: const Text('Changer le mot de passe'),
                     textColor: Colors.white,
                     onTap: () {
-                      // Navigation pour changer le mot de passe
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ChangePasswordPage()),
+                      );
                     },
                   ),
+
                   SizedBox(height: 8),
                   ListTile(
                     leading: Icon(Icons.notifications),

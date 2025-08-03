@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
             label: '', // Empty label to hide the text
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
+            icon: Icon(Icons.note_alt),
             label: '', // Empty label to hide the text
           ),
           BottomNavigationBarItem(

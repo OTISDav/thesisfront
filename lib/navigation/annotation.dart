@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../auth/api_service.dart'; // Assurez-vous que le chemin est correct
+import '../auth/api_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AnnotationListPage extends StatefulWidget {
   @override
@@ -7,21 +8,40 @@ class AnnotationListPage extends StatefulWidget {
 }
 
 class _AnnotationListPageState extends State<AnnotationListPage> {
-  List<Map<String, dynamic>> annotations = [];
-  ApiService apiService = ApiService('https://ubuntuthesisbackend.onrender.com'); // Remplacez par votre API si nécessaire
+  List<Map<String, dynamic>> annotationsWithThesisDetails = [];
+  ApiService apiService = ApiService('https://ubuntuthesisbackend.onrender.com');
 
   @override
   void initState() {
     super.initState();
-    _loadAnnotations();
+    _loadAnnotationsWithThesisDetails();
   }
 
-  Future<void> _loadAnnotations() async {
+  Future<void> _loadAnnotationsWithThesisDetails() async {
     try {
       final annotationList = await apiService.getAnnotations();
-      print("📌 Annotations reçues : $annotationList"); // Debug
+      print("📌 Annotations reçues (brut) : $annotationList");
+
+      List<Map<String, dynamic>> detailedAnnotations = [];
+      for (var annotation in annotationList) {
+        int thesisId = annotation['thesis'];
+        try {
+          Map<String, dynamic>? thesisDetails = await apiService.getThesisDetails(thesisId);
+          if (thesisDetails != null) {
+            detailedAnnotations.add({...annotation, 'thesis_details': thesisDetails});
+          } else {
+            print('⚠️ Détails de la thèse non trouvés pour l\'ID: $thesisId');
+            detailedAnnotations.add(annotation);
+          }
+        } catch (e) {
+          print('❌ Erreur lors de la récupération des détails de la thèse $thesisId: $e');
+          detailedAnnotations.add(annotation);
+        }
+      }
+
       setState(() {
-        annotations = annotationList;
+        annotationsWithThesisDetails = detailedAnnotations;
+        print("📌 Annotations avec détails de la thèse : $annotationsWithThesisDetails");
       });
     } catch (e) {
       print('❌ Erreur chargement annotations: $e');
@@ -45,7 +65,7 @@ class _AnnotationListPageState extends State<AnnotationListPage> {
         body: Column(
           children: [
             Expanded(
-              child: annotations.isEmpty
+              child: annotationsWithThesisDetails.isEmpty
                   ? Center(
                       child: Text(
                         'Aucune annotation trouvée',
@@ -53,10 +73,10 @@ class _AnnotationListPageState extends State<AnnotationListPage> {
                       ),
                     )
                   : ListView.builder(
-                      itemCount: annotations.length,
+                      itemCount: annotationsWithThesisDetails.length,
                       itemBuilder: (BuildContext context, int index) {
-                        var annotation = annotations[index];
-                        return _buildAnnotationCard(context, annotation);
+                        var annotationWithDetails = annotationsWithThesisDetails[index];
+                        return _buildAnnotationCard(context, annotationWithDetails);
                       },
                     ),
             ),
@@ -66,24 +86,27 @@ class _AnnotationListPageState extends State<AnnotationListPage> {
     );
   }
 
-  Widget _buildAnnotationCard(BuildContext context, Map<String, dynamic> annotation) {
-    dynamic thesisInfo = annotation['thesis'];
+  Widget _buildAnnotationCard(BuildContext context, Map<String, dynamic> annotationWithDetails) {
+    dynamic thesisDetails = annotationWithDetails['thesis_details'];
     String thesisTitle = '';
-    int? thesisId; // Déclarez thesisId ici
+    String? documentUrl;
+    int annotationId = annotationWithDetails['id'] as int? ?? -1;
+    String note = annotationWithDetails['note'] ?? 'Aucune note';
+    int? thesisId = annotationWithDetails['thesis'] as int?;
 
-    if (thesisInfo is Map && thesisInfo.containsKey('title')) {
-      thesisTitle = thesisInfo['title'] as String;
-      thesisId = thesisInfo['id'] as int?; // Essayez de récupérer l'ID de la thèse si c'est une map
-    } else if (thesisInfo is int) {
-      thesisTitle = 'ID de la thèse: $thesisInfo';
-      thesisId = thesisInfo; // Si thesisInfo est un int, c'est l'ID
-      // Vous pourriez faire une autre requête ici pour obtenir le titre complet si nécessaire
+    if (thesisDetails is Map) {
+      thesisTitle = thesisDetails['title'] as String? ?? 'Titre non disponible';
+      documentUrl = thesisDetails['document'];
+
+      if (documentUrl != null && !documentUrl.endsWith('.pdf')) {
+        documentUrl = '$documentUrl.pdf';
+      }
+
+
+      thesisId = thesisDetails['id'] as int?;
     } else {
       thesisTitle = 'Information sur la thèse non disponible';
     }
-
-    String note = annotation['note'] ?? 'Aucune note';
-    int annotationId = annotation['id'] as int? ?? -1; // Gestion du cas où l'ID est null
 
     return Card(
       elevation: 4,
@@ -112,11 +135,24 @@ class _AnnotationListPageState extends State<AnnotationListPage> {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
+                if (documentUrl != null && documentUrl.isNotEmpty)
+                  IconButton(
+                    icon: Icon(Icons.file_download, color: Colors.green),
+                    onPressed: () async {
+                      if (await canLaunch(documentUrl!)) {
+                        await apiService.downloadPdfWithHttp(documentUrl!, "thesis_$thesisId");
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Impossible d\'ouvrir le fichier')),
+                        );
+                      }
+                    },
+                  ),
                 IconButton(
                   icon: Icon(Icons.edit, color: Colors.blueAccent),
                   onPressed: () {
                     if (annotationId != -1 && thesisId != null) {
-                      _showEditAnnotationDialog(context, annotationId, note, thesisId); // Passez thesisId
+                      _showEditAnnotationDialog(context, annotationId, note, thesisId);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Informations de l\'annotation ou de la thèse manquantes')),
@@ -167,7 +203,7 @@ class _AnnotationListPageState extends State<AnnotationListPage> {
             TextButton(
               child: Text("Modifier"),
               onPressed: () {
-                _updateAnnotation(annotationId, annotationController.text, thesisId); // Passez thesisId
+                _updateAnnotation(annotationId, annotationController.text, thesisId);
                 Navigator.of(context).pop();
               },
             ),
@@ -177,12 +213,12 @@ class _AnnotationListPageState extends State<AnnotationListPage> {
     );
   }
 
-  void _updateAnnotation(int annotationId, String newNote, int thesisId) { // Ajout de thesisId
-    apiService.updateAnnotation(annotationId, newNote, thesisId).then((_) { // Passage de thesisId
+  void _updateAnnotation(int annotationId, String newNote, int thesisId) {
+    apiService.updateAnnotation(annotationId, newNote, thesisId).then((_) {
       setState(() {
-        int index = annotations.indexWhere((anno) => anno['id'] == annotationId);
+        int index = annotationsWithThesisDetails.indexWhere((anno) => anno['id'] == annotationId);
         if (index != -1) {
-          annotations[index]['note'] = newNote;
+          annotationsWithThesisDetails[index]['note'] = newNote;
         }
       });
       ScaffoldMessenger.of(context).showSnackBar(
@@ -199,7 +235,7 @@ class _AnnotationListPageState extends State<AnnotationListPage> {
   void _handleDeleteAnnotation(int annotationId) {
     apiService.deleteAnnotation(annotationId).then((_) {
       setState(() {
-        annotations.removeWhere((anno) => anno['id'] == annotationId);
+        annotationsWithThesisDetails.removeWhere((anno) => anno['id'] == annotationId);
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('🗑 Annotation supprimée')),

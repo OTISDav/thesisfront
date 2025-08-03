@@ -2,6 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path/path.dart';
 
 class ApiService {
   final String baseUrl;
@@ -87,24 +92,6 @@ class ApiService {
     }
   }
 
-  // 📌 Ajouter un document aux favoris
-  // Future<void> addToFavorites(int thesisId) async {
-  //   final token = await _getToken();
-  //   if (token == null) return;
-
-  //   final url = Uri.parse('$baseUrl/api/theses/favorites/');
-  //   final response = await http.post(
-  //     url,
-  //     headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
-  //     body: jsonEncode({'thesis': thesisId}),
-  //   );
-
-  //   if (response.statusCode == 201) {
-  //     print('✅ Document ajouté aux favoris');
-  //   } else {
-  //     print('❌ Erreur ajout favoris: ${response.body}');
-  //   }
-  // }
   
   Future<void> addToFavorites(Map<String, dynamic> body) async {
   final token = await _getToken();
@@ -277,24 +264,44 @@ Future<List<Map<String, dynamic>>> getFavoris() async {
       print('❌ Erreur ajout annotation: ${response.body}');
     }
   }
+// telecharger document
 
-  // 📌 Télécharger un document
-  Future<void> registerDownload(int thesisId) async {
-    final token = await _getToken();
-    if (token == null) return;
-
-    final url = Uri.parse('$baseUrl/api/theses/download/$thesisId/');
-    final response = await http.post(
-      url,
-      headers: {'Authorization': 'Bearer $token'},
-    );
+Future<void> downloadPdfWithHttp(String url, String fileName) async {
+  try {
+    final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      print('✅ Téléchargement enregistré');
+      final contentType = response.headers['content-type']; // ex: application/pdf
+      String extension = '.pdf'; // Valeur par défaut
+
+      if (contentType != null) {
+        if (contentType.contains('pdf')) {
+          extension = '.pdf';
+        } else if (contentType.contains('msword')) {
+          extension = '.doc';
+        } else if (contentType.contains('officedocument.wordprocessingml.document')) {
+          extension = '.docx';
+        }
+      }
+
+      final bytes = response.bodyBytes;
+
+      final dir = await getApplicationDocumentsDirectory();
+      final file = File("${dir.path}/$fileName$extension");
+
+      await file.writeAsBytes(bytes);
+      print("✅ Fichier sauvegardé : ${file.path}");
+
+      OpenFile.open(file.path); // Ouvre le fichier après téléchargement
     } else {
-      print('❌ Erreur téléchargement: ${response.body}');
+      print("❌ Erreur de téléchargement : ${response.statusCode}");
     }
+  } catch (e) {
+    print("🚫 Exception : $e");
   }
+}
+
+
 
   // 📌 Récupérer le profil utilisateur
   Future<Map<String, dynamic>?> getUserProfile() async {
@@ -315,4 +322,82 @@ Future<List<Map<String, dynamic>>> getFavoris() async {
     }
   }
 
+
+    Future<Map<String, dynamic>> changePassword({
+    required String oldPassword,
+    required String newPassword,
+    required String confirmNewPassword,
+  }) async {
+    final token = await _getToken();
+    if (token == null) {
+      return {'success': false, 'errors': 'Token manquant'};
+    }
+
+    final url = Uri.parse('$baseUrl/api/users/auth/change-password/');
+    final response = await http.post(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'old_password': oldPassword,
+        'new_password': newPassword,
+        'confirm_new_password': confirmNewPassword,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return {'success': true};
+    } else {
+      final data = jsonDecode(response.body);
+      return {
+        'success': false,
+        'errors': data,
+      };
+    }
+  }
+
+
+  
+  /// Met à jour la photo de profil
+  Future<bool> updateProfilePicture(File imageFile) async {
+    final token = await _getToken();
+    if (token == null) {
+      print('❌ Token non disponible');
+      return false;
+    }
+
+    final url = Uri.parse('$baseUrl/api/users/auth/profile/update/'); // adapte l’URL si besoin
+
+    var request = http.MultipartRequest('PUT', url);
+    request.headers['Authorization'] = 'Bearer $token';
+
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        'profile_picture', // clé attendue par ton serializer Django
+        imageFile.path,
+        filename: basename(imageFile.path),
+      ),
+    );
+
+    try {
+      final response = await request.send();
+      if (response.statusCode == 200) {
+        print('✅ Photo de profil mise à jour avec succès');
+        return true;
+      } else {
+        final respStr = await response.stream.bytesToString();
+        print('❌ Erreur mise à jour photo: ${response.statusCode} $respStr');
+        return false;
+      }
+    } catch (e) {
+      print('🚫 Exception upload photo: $e');
+      return false;
+    }
+  }
+
+
 }
+
+

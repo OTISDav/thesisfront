@@ -183,14 +183,23 @@ class _FavorisPageState extends State<FavorisPage> {
     );
   }
 
-  Future<void> _handleDownload(String fileUrl, int thesisId) async {
-    if (await canLaunch(fileUrl)) {
-      await launch(fileUrl);
-      await apiService.registerDownload(thesisId);
-    } else {
-      throw Exception('Impossible d\'ouvrir le fichier');
+    Future<void> _handleDownload(String fileUrl, int thesisId) async {
+    try {
+      // Vérifie si l’URL se termine par ".pdf", sinon l’ajoute
+      String fixedUrl = fileUrl;
+      if (!fixedUrl.endsWith('.pdf')) {
+        fixedUrl = '$fixedUrl.pdf';
+      }
+
+      await apiService.downloadPdfWithHttp(fixedUrl, "thesis_$thesisId");
+    } catch (e) {
+      throw Exception('Impossible de télécharger le fichier : $e');
     }
   }
+
+
+
+
 
   void _handleRemoveFavorite(int favoriteId) {
     print("🗑 Tentative de suppression du favori avec l'ID du favori : $favoriteId");
