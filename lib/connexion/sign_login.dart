@@ -34,7 +34,7 @@ class ConnexionPage extends StatelessWidget {
             //     ),
             //   ),
             // ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 400),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -45,7 +45,7 @@ class ConnexionPage extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.arrow_right_alt, color: Color(0xff052555)),
+                  // Icon(Icons.arrow_right_alt, color: Color(0xff052555)),
                   const SizedBox(width: 10),
                   Text(
                     'Se connecter',
@@ -81,42 +81,67 @@ class ConnexionPage extends StatelessWidget {
             // ),
             const SizedBox(height: 40),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Tu n\'as pas de compte ?',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Color.fromRGBO(223, 227, 236, 1),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegistrationPage()),
-                    );
-                  },
-                  child: const Text(
-                    'Clique ici',
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RegistrationPage()),
+                );
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Icon(Icons.arrow_right_alt, color: Color(0xff052555)),
+                  const SizedBox(width: 10),
+                  Text(
+                    'Creer un compte',
                     style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 157, 170, 176),
+                      color: Color(0xff052555),
+                      fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
                     ),
                   ),
-                ),
-                // const Text(
-                //   '?',
-                //   style: TextStyle(
-                //     fontSize: 20,
-                //     color: Color.fromRGBO(223, 227, 236, 1),
-                //   ),
-                // ),
-              ],
+                ],
+              ),
             ),
+
+
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     const Text(
+            //       'Tu n\'as pas de compte ?',
+            //       style: TextStyle(
+            //         fontSize: 20,
+            //         color: Color.fromRGBO(223, 227, 236, 1),
+            //       ),
+            //     ),
+            //     TextButton(
+            //       onPressed: () {
+            //         Navigator.push(
+            //           context,
+            //           MaterialPageRoute(builder: (context) => RegistrationPage()),
+            //         );
+            //       },
+            //       child: const Text(
+            //         'Clique ici',
+            //         style: TextStyle(
+            //           fontSize: 20,
+            //           color: Color.fromARGB(255, 157, 170, 176),
+            //           fontWeight: FontWeight.bold,
+            //           decoration: TextDecoration.underline,
+            //         ),
+            //       ),
+            //     ),
+            //     // const Text(
+            //     //   '?',
+            //     //   style: TextStyle(
+            //     //     fontSize: 20,
+            //     //     color: Color.fromRGBO(223, 227, 236, 1),
+            //     //   ),
+            //     // ),
+            //   ],
+            // ),
           ],
         ),
       ),

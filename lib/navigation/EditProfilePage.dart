@@ -54,6 +54,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 44, 48, 49),
       appBar: AppBar(title: Text('Modifier le profil')),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -62,8 +63,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             _imageFile == null
                 ? CircleAvatar(
                     radius: 60,
-                    backgroundColor: Colors.grey[300],
-                    child: Icon(Icons.person, size: 60, color: Colors.white),
+                    backgroundColor: Color.fromARGB(255, 224, 241, 245),
+                    child: Icon(Icons.person, size: 60, color: const Color.fromARGB(255, 224, 101, 101)),
                   )
                 : CircleAvatar(
                     radius: 60,

@@ -12,7 +12,7 @@ class ProfilPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 47, 109, 120),
+        backgroundColor: Color.fromARGB(255, 44, 48, 49),
         body: FutureBuilder<Map<String, dynamic>?>(
           future: apiService.getUserProfile(),
           builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>?> snapshot) {
