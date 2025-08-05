@@ -54,22 +54,35 @@ class _AnnotationListPageState extends State<AnnotationListPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 47, 109, 120),
-        appBar: AppBar(
-          title: Text('Vos annotations', style: TextStyle(color: Colors.white)),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          iconTheme: IconThemeData(color: Colors.white),
-        ),
+      
+      child: Scaffold(    
+        backgroundColor: Color.fromARGB(255, 11, 12, 12),
+        // appBar: AppBar(
+        //   title: Text('Vos annotations', style: TextStyle(color: Colors.white)),
+        //   backgroundColor: Colors.transparent,
+        //   elevation: 0,
+        //   iconTheme: IconThemeData(color: const Color.fromARGB(255, 199, 83, 83)),
+        // ),
         body: Column(
+          
           children: [
+                          Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Vos Annotations ',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             Expanded(
               child: annotationsWithThesisDetails.isEmpty
                   ? Center(
                       child: Text(
                         'Aucune annotation trouvée',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: const Color.fromARGB(255, 15, 14, 14)),
                       ),
                     )
                   : ListView.builder(
@@ -109,8 +122,9 @@ class _AnnotationListPageState extends State<AnnotationListPage> {
     }
 
     return Card(
-      elevation: 4,
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      elevation: 10,
+      color: Color.fromARGB(255, 210, 204, 204),
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 50),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -118,7 +132,7 @@ class _AnnotationListPageState extends State<AnnotationListPage> {
         children: [
           ListTile(
             contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            leading: Icon(Icons.note, size: 48, color: Colors.orange),
+            leading: Icon(Icons.note, size: 48, color: const Color.fromARGB(255, 165, 158, 149)),
             title: Text(
               thesisTitle,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),

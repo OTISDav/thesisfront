@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF00A8AA), Color(0xFF004D40)], // Dégradé du bleu clair au gris anthracite
+              colors: [Color.fromARGB(255, 11, 12, 12), Color.fromARGB(255, 165, 170, 169)], // Dégradé du bleu clair au gris anthracite
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -181,7 +181,7 @@ class _HomePageState extends State<HomePage> {
   ) {
     return Card(
       elevation: 6,
-      color: Color(0xFF424242), // Couleur des cartes
+      color: Color.fromARGB(255, 210, 204, 204), // Couleur des cartes
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),

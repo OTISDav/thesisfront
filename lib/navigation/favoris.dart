@@ -56,7 +56,7 @@ class _FavorisPageState extends State<FavorisPage> {
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF00A8AA), Color(0xFF004D40)],
+              colors: [Color.fromARGB(255, 11, 12, 12), Color.fromARGB(255, 165, 170, 169)],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -114,7 +114,7 @@ class _FavorisPageState extends State<FavorisPage> {
   ) {
     return Card(
       elevation: 6,
-      color: Color(0xFF424242),
+      color: Color.fromARGB(255, 210, 204, 204),
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
