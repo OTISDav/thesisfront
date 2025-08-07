@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import '../auth/auth_service.dart';
 import '../navigation/navigation.dart';
-// import '../auth/forgot_password_page.dart';
+import '../navigation/ForgotPasswordPage.dart';
 import '../connexion/RegistrationPage.dart';
 
 class LoginPageEmail extends StatefulWidget {
@@ -85,7 +85,7 @@ class _LoginPageEmailState extends State<LoginPageEmail> {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    // Navigator.push(context, MaterialPageRoute(builder: (_) => ForgotPasswordPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => ForgotPasswordPage()));
                   },
                   child: Text("Mot de passe oublié ?", style: TextStyle(color: Colors.white)),
                 ),

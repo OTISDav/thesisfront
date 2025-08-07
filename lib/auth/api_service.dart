@@ -397,7 +397,35 @@ Future<void> downloadPdfWithHttp(String url, String fileName) async {
     }
   }
 
+//   Future<void> sendPasswordResetEmail(String email) async {
+//   final response = await http.post(
+//     Uri.parse('$baseUrl/api/password_reset/'),
+//     headers: {'Content-Type': 'application/json'},
+//     body: jsonEncode({'email': email}),
+//   );
+//   if (response.statusCode != 200) {
+//     throw Exception('Erreur lors de l\'envoi du lien de réinitialisation');
+//   }
+// }
 
-}
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/api/password_reset/'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': email}),
+    );
+
+    if (response.statusCode != 200) {
+      // Tu peux aussi lire le message d'erreur dans la réponse ici
+      throw Exception('Erreur lors de l\'envoi du lien de réinitialisation');
+    }
+  }
+
+
+
+ }
+
+
 
 

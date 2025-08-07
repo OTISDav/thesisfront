@@ -22,8 +22,19 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   bool _showNewPassword = false;
   bool _showConfirmPassword = false;
 
+  @override
+  void dispose() {
+    _oldPasswordController.dispose();
+    _newPasswordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
   void _handleChangePassword() async {
     if (_formKey.currentState!.validate()) {
+      // Fermer le clavier au clic
+      FocusScope.of(context).unfocus();
+
       setState(() {
         _isLoading = true;
         _errorMessage = null;
@@ -31,27 +42,34 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
       final apiService = ApiService(baseUrl);
 
-      final response = await apiService.changePassword(
-        oldPassword: _oldPasswordController.text,
-        newPassword: _newPasswordController.text,
-        confirmNewPassword: _confirmPasswordController.text,
-      );
-
-      setState(() {
-        _isLoading = false;
-      });
-
-      if (response['success']) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Mot de passe changé avec succès'),
-            backgroundColor: Colors.green,
-          ),
+      try {
+        final response = await apiService.changePassword(
+          oldPassword: _oldPasswordController.text,
+          newPassword: _newPasswordController.text,
+          confirmNewPassword: _confirmPasswordController.text,
         );
-        Navigator.pop(context);
-      } else {
+
         setState(() {
-          _errorMessage = response['errors'].toString();
+          _isLoading = false;
+        });
+
+        if (response != null && response['success'] == true) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Mot de passe changé avec succès'),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.pop(context);
+        } else {
+          setState(() {
+            _errorMessage = response?['errors']?.toString() ?? 'Erreur inconnue';
+          });
+        }
+      } catch (e) {
+        setState(() {
+          _isLoading = false;
+          _errorMessage = 'Erreur réseau ou serveur: $e';
         });
       }
     }
@@ -106,12 +124,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     style: TextStyle(color: Colors.red.shade800, fontWeight: FontWeight.w600),
                   ),
                 ),
-                SizedBox(height: 35),
+              SizedBox(height: 35),
               TextFormField(
-                
                 controller: _oldPasswordController,
                 obscureText: !_showOldPassword,
-                
                 decoration: _buildInputDecoration(
                   "Ancien mot de passe",
                   _showOldPassword,

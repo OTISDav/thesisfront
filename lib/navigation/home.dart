@@ -363,8 +363,8 @@ class _HomePageState extends State<HomePage> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color.fromARGB(255, 11, 12, 12),
-                Color.fromARGB(255, 165, 170, 169)
+              Color(0xFF2F6D78),
+              Color(0xFFAAC4C4)
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,

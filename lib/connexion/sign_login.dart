@@ -7,6 +7,8 @@ class ConnexionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double buttonWidth = 300; // largeur fixe pour les 2 boutons
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 47, 109, 120),
       body: Padding(
@@ -16,7 +18,7 @@ class ConnexionPage extends StatelessWidget {
           children: <Widget>[
             const Center(
               child: Text(
-                'THESIS',
+                'THESE',
                 style: TextStyle(
                   fontSize: 50,
                   color: Color.fromRGBO(244, 245, 247, 1),
@@ -24,124 +26,79 @@ class ConnexionPage extends StatelessWidget {
                 ),
               ),
             ),
-            // const SizedBox(height: 35),
-            // const Center(
-            //   child: Text(
-            //     'Méthode de Connexion',
-            //     style: TextStyle(
-            //       fontSize: 20,
-            //       color: Color.fromRGBO(244, 245, 247, 1),
-            //     ),
-            //   ),
-            // ),
-            const SizedBox(height: 400),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPageEmail()),
-                );
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Icon(Icons.arrow_right_alt, color: Color(0xff052555)),
-                  const SizedBox(width: 10),
-                  Text(
-                    'Se connecter',
-                    style: TextStyle(
-                      color: Color(0xff052555),
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // const SizedBox(height: 35),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-              // children: [
-                // IconButton(
-                //   icon: Image.asset('assets/google.png'), // Assurez-vous que l'image est dans le dossier assets
-                //   iconSize: 50,
-                //   onPressed: () {
-                //     // Logique de connexion avec Google
-                //   },
-                // ),
-                // const SizedBox(width: 20),
-                // IconButton(
-                //   icon: Icon(Icons.phone_android, color: Colors.white),
-                //   iconSize: 50,
-                //   onPressed: () {
-                //     // Logique de connexion avec téléphone
-                //   },
-                // ),
-            //   ],
-            // ),
-            const SizedBox(height: 40),
 
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RegistrationPage()),
-                );
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Icon(Icons.arrow_right_alt, color: Color(0xff052555)),
-                  const SizedBox(width: 10),
-                  Text(
-                    'Creer un compte',
-                    style: TextStyle(
-                      color: Color(0xff052555),
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
+            // const SizedBox(height: 250),
+
+
+                SizedBox(height: 20), // espace entre le texte et l'image
+
+    // Image locale depuis les assets
+    Image.asset(
+      'assets/3.png',
+      width: 400,
+      height: 400,
+      fit: BoxFit.contain,
+    ),
+
+    SizedBox(height: 40),
+
+            // Bouton Se connecter
+            SizedBox(
+              width: buttonWidth,
+              height: 60,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white, // fond blanc
+                  foregroundColor: Color(0xff052555), // texte bleu foncé
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                ],
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPageEmail()),
+                  );
+                },
+                child: Text(
+                  'Se connecter',
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
 
+            const SizedBox(height: 30),
 
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     const Text(
-            //       'Tu n\'as pas de compte ?',
-            //       style: TextStyle(
-            //         fontSize: 20,
-            //         color: Color.fromRGBO(223, 227, 236, 1),
-            //       ),
-            //     ),
-            //     TextButton(
-            //       onPressed: () {
-            //         Navigator.push(
-            //           context,
-            //           MaterialPageRoute(builder: (context) => RegistrationPage()),
-            //         );
-            //       },
-            //       child: const Text(
-            //         'Clique ici',
-            //         style: TextStyle(
-            //           fontSize: 20,
-            //           color: Color.fromARGB(255, 157, 170, 176),
-            //           fontWeight: FontWeight.bold,
-            //           decoration: TextDecoration.underline,
-            //         ),
-            //       ),
-            //     ),
-            //     // const Text(
-            //     //   '?',
-            //     //   style: TextStyle(
-            //     //     fontSize: 20,
-            //     //     color: Color.fromRGBO(223, 227, 236, 1),
-            //     //   ),
-            //     // ),
-            //   ],
-            // ),
+            // Bouton Créer un compte
+            SizedBox(
+              width: buttonWidth,
+              height: 60,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xff052555), // fond bleu foncé
+                  foregroundColor: Colors.white, // texte blanc
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RegistrationPage()),
+                  );
+                },
+                child: Text(
+                  'Créer un compte',
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
