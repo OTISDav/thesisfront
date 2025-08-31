@@ -74,6 +74,7 @@ class _FavorisPageState extends State<FavorisPage> {
                   ),
                 ),
               ),
+              
               Expanded(
                 child: favoris.isEmpty
                     ? Center(
@@ -141,7 +142,7 @@ class _FavorisPageState extends State<FavorisPage> {
                   padding: EdgeInsets.symmetric(vertical: 8),
                   child: Text(
                     resume,
-                    style: TextStyle(fontSize: 14, color: Colors.white70),
+                    style: TextStyle(fontSize: 14, color: const Color.fromARGB(179, 23, 13, 13)),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),

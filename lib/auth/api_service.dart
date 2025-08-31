@@ -21,14 +21,14 @@ class ApiService {
   }
 
   // Récupère le token JWT
-  Future<String?> _getToken() async {
+  Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('auth_token');
   }
 
   // 📌 Publier un document avec fichier obligatoire
   Future<void> publishDocument(Map<String, dynamic> documentData, {required File file}) async {
-  final token = await _getToken();
+  final token = await getToken();
   if (token == null) {
     print('❌ Erreur: Token non disponible.');
     return;
@@ -75,7 +75,7 @@ class ApiService {
 
   // 📌 Récupérer tous les documents
   Future<List<Map<String, dynamic>>> getDocuments() async {
-    final token = await _getToken();
+    final token = await getToken();
     if (token == null) return [];
 
     final url = Uri.parse('$baseUrl/api/theses/theses/');
@@ -94,7 +94,7 @@ class ApiService {
 
   
   Future<void> addToFavorites(Map<String, dynamic> body) async {
-  final token = await _getToken();
+  final token = await getToken();
   if (token == null) {
     print('🚨 Erreur: Token JWT manquant !');
     return;
@@ -124,7 +124,7 @@ class ApiService {
 //desactive favoris
 
 Future<void> removeFromFavorites(int favoriteId) async {
-  final token = await _getToken();
+  final token = await getToken();
   if (token == null) return;
 
   final url = Uri.parse('$baseUrl/api/theses/favorites/$favoriteId/');
@@ -147,7 +147,7 @@ Future<void> removeFromFavorites(int favoriteId) async {
 //detail thesis
 
 Future<Map<String, dynamic>?> getThesisDetails(int thesisId) async {
-  final token = await _getToken();
+  final token = await getToken();
   final url = Uri.parse('$baseUrl/api/theses/theses/$thesisId/');
 
   try {
@@ -171,7 +171,7 @@ Future<Map<String, dynamic>?> getThesisDetails(int thesisId) async {
 
   // 📌 Récupérer la liste des annotations
   Future<List<Map<String, dynamic>>> getAnnotations() async {
-    final token = await _getToken();
+    final token = await getToken();
     if (token == null) return [];
 
     final url = Uri.parse('$baseUrl/api/theses/annotations/');
@@ -190,7 +190,7 @@ Future<Map<String, dynamic>?> getThesisDetails(int thesisId) async {
 
 // 📌 Modifier une annotation
 Future<void> updateAnnotation(int annotationId, String newNote, int thesisId) async {
-  final token = await _getToken();
+  final token = await getToken();
   if (token == null) return;
 
   final url = Uri.parse('$baseUrl/api/theses/annotations/$annotationId/');
@@ -209,7 +209,7 @@ Future<void> updateAnnotation(int annotationId, String newNote, int thesisId) as
 
 // 📌 Supprimer une annotation
 Future<void> deleteAnnotation(int annotationId) async {
-  final token = await _getToken();
+  final token = await getToken();
   if (token == null) return;
 
   final url = Uri.parse('$baseUrl/api/theses/annotations/$annotationId/');
@@ -228,7 +228,7 @@ Future<void> deleteAnnotation(int annotationId) async {
 
 // 📌 Récupérer la liste des favoris
 Future<List<Map<String, dynamic>>> getFavoris() async {
-  final token = await _getToken();
+  final token = await getToken();
   if (token == null) return [];
 
   final url = Uri.parse('$baseUrl/api/theses/favorites/'); // Assurez-vous que l'URL est correcte pour les favoris
@@ -248,7 +248,7 @@ Future<List<Map<String, dynamic>>> getFavoris() async {
 
   // 📌 Ajouter une annotation à un document
   Future<void> addAnnotation(int thesisId, String note) async {
-    final token = await _getToken();
+    final token = await getToken();
     if (token == null) return;
 
     final url = Uri.parse('$baseUrl/api/theses/annotations/');
@@ -305,7 +305,7 @@ Future<void> downloadPdfWithHttp(String url, String fileName) async {
 
   // 📌 Récupérer le profil utilisateur
   Future<Map<String, dynamic>?> getUserProfile() async {
-    final token = await _getToken();
+    final token = await getToken();
     if (token == null) return null;
 
     final url = Uri.parse('$baseUrl/api/users/auth/profile/');
@@ -328,7 +328,7 @@ Future<void> downloadPdfWithHttp(String url, String fileName) async {
     required String newPassword,
     required String confirmNewPassword,
   }) async {
-    final token = await _getToken();
+    final token = await getToken();
     if (token == null) {
       return {'success': false, 'errors': 'Token manquant'};
     }
@@ -362,7 +362,7 @@ Future<void> downloadPdfWithHttp(String url, String fileName) async {
   
   /// Met à jour la photo de profil
   Future<bool> updateProfilePicture(File imageFile) async {
-    final token = await _getToken();
+    final token = await getToken();
     if (token == null) {
       print('❌ Token non disponible');
       return false;
@@ -421,6 +421,42 @@ Future<void> downloadPdfWithHttp(String url, String fileName) async {
       throw Exception('Erreur lors de l\'envoi du lien de réinitialisation');
     }
   }
+
+
+
+
+
+  // 📌 Se connecter et sauvegarder le token
+Future<bool> login(String email, String password) async {
+  // final url = Uri.parse('$baseUrl/api/token/'); // adapte selon ton endpoint
+  final url = Uri.parse('$baseUrl/api/users/auth/login/');
+
+  final response = await http.post(
+    url,
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({'email': email, 'password': password}),
+  );
+
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body);
+    final token = data['access'] ?? data['token']; // adapte selon la clé renvoyée par ton API
+    if (token != null) {
+      await _saveToken(token);
+      print('✅ Login réussi, token sauvegardé');
+      return true;
+    }
+  }
+
+  print('❌ Échec login: ${response.body}');
+  return false;
+}
+
+// // 📌 Se déconnecter et supprimer le token
+// Future<void> logout() async {
+//   final prefs = await SharedPreferences.getInstance();
+//   await prefs.remove('auth_token');
+//   print('✅ Déconnexion, token supprimé');
+// }
 
 
 

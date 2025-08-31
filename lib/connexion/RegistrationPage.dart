@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import '../auth/auth_service.dart';
-import '../connexion/loginpage.dart'; // ⬅️ Assure-toi que ce fichier existe
-
-import 'package:flutter/gestures.dart'; // ⬅️ Nécessaire pour TapGestureRecognizer
+import '../connexion/loginpage.dart';
+import 'package:flutter/gestures.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -49,7 +48,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       try {
         await _authService.register(username, email, password);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Inscription réussie')),
+          SnackBar(content: Text('Inscription réussie. Vérifie ton adresse mail pour activer ton compte.')),
         );
         Navigator.pop(context);
       } catch (e) {
@@ -70,75 +69,89 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 47, 109, 120),
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      // ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(25.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 150),
-              Center(
-                child: Text('Inscription', style: TextStyle(fontSize: 40, color: Colors.white, fontWeight: FontWeight.bold)),
-              ),
-              SizedBox(height: 80.0),
-              _buildTextField(_usernameController, 'Pseudo', Icons.person),
-              SizedBox(height: 35.0),
-              _buildTextField(_emailController, 'Adresse mail', Icons.email),
-              SizedBox(height: 35.0),
-              _buildPasswordField(),
-              SizedBox(height: 35.0),
-              _isLoading
-                  ? CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: _register,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Color(0xff052555),
-                        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      ),
-                      child: Text("S'inscrire", style: TextStyle(fontSize: 18)),
-                    ),
-              if (_errorMessage != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: Text(
-                    _errorMessage!,
-                    style: TextStyle(color: Colors.red),
-                  ),
-                ),
-              SizedBox(height: 40),
-              Divider(color: Colors.white70),
-              RichText(
-                text: TextSpan(
-                  text: "J'ai déjà un compte. ",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                  children: [
-                    TextSpan(
-                      text: "Se connecter",
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF2F6D78), Color(0xFFAAC4C4)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(25.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: 100),
+                  Center(
+                    child: Text(
+                      'Inscription',
                       style: TextStyle(
-                        color: Color(0xFFFFC107), // 🌟 Couleur personnalisée
+                        fontSize: 40,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline,
                       ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => LoginPageEmail()),
-                          );
-                        },
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 80.0),
+                  _buildTextField(_usernameController, 'Pseudo', Icons.person),
+                  SizedBox(height: 35.0),
+                  _buildTextField(_emailController, 'Adresse mail', Icons.email),
+                  SizedBox(height: 35.0),
+                  _buildPasswordField(),
+                  SizedBox(height: 35.0),
+                  _isLoading
+                      ? CircularProgressIndicator()
+                      : ElevatedButton(
+                          onPressed: _register,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Color(0xff052555),
+                            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          ),
+                          child: Text("S'inscrire", style: TextStyle(fontSize: 18)),
+                        ),
+                  if (_errorMessage != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: Text(
+                        _errorMessage!,
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  SizedBox(height: 40),
+                  Divider(color: Colors.white70),
+                  RichText(
+                    text: TextSpan(
+                      text: "J'ai déjà un compte. ",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      children: [
+                        TextSpan(
+                          text: "Se connecter",
+                          style: TextStyle(
+                            color: Color(0xFFFFC107),
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => LoginPageEmail()),
+                              );
+                            },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

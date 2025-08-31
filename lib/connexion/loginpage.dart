@@ -59,103 +59,102 @@ class _LoginPageEmailState extends State<LoginPageEmail> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 47, 109, 120),
-      // SizedBox(height: 30),
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      // ),
-      
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 150),
-              Center(
-                child: Text('Connexion', style: TextStyle(fontSize: 40, color: Colors.white, fontWeight: FontWeight.bold)),
-              ),
-              SizedBox(height: 100),
-              _buildTextField(_usernameController, 'Nom', Icons.person),
-              SizedBox(height: 35.0),
-              _buildPasswordField(),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => ForgotPasswordPage()));
-                  },
-                  child: Text("Mot de passe oublié ?", style: TextStyle(color: Colors.white)),
-                ),
-              ),
-              SizedBox(height: 35.0),
-              _isLoading
-                  ? CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: _login,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Color(0xff052555),
-                        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF2F6D78), Color(0xFFAAC4C4)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent, // Pour voir le dégradé
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: 150),
+                  Center(
+                    child: Text(
+                      'Connexion',
+                      style: TextStyle(
+                        fontSize: 40,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
-                      child: Text('Connexion', style: TextStyle(fontSize: 18)),
                     ),
-              if (_errorMessage != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: Text(
-                    _errorMessage!,
-                    style: TextStyle(color: Colors.red),
                   ),
-                ),
-              SizedBox(height: 40),
-              Divider(color: Colors.white70),
-              // TextButton(
-              //   onPressed: () {
-              //     Navigator.push(context, MaterialPageRoute(builder: (_) => RegistrationPage()));
-              //   },
-              //   child: Text("Je suis nouveau. Créer un compte",
-              //       style: TextStyle(color: Colors.white, fontSize: 16)),
-              // ),
-
-              RichText(
-              text: TextSpan(
-                text: "Je suis nouveau. ",
-                style: TextStyle(color: Colors.white, fontSize: 16),
-                children: [
-                  TextSpan(
-                    text: "Créer un compte",
-                    style: TextStyle(
-                      color: Color(0xFFFFC107), // 🌟 Couleur personnalisée ici (jaune par exemple)
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline, // (facultatif) souligner le lien
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => RegistrationPage()));
+                  SizedBox(height: 100),
+                  _buildTextField(_usernameController, 'Nom', Icons.person),
+                  SizedBox(height: 35.0),
+                  _buildPasswordField(),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => ForgotPasswordPage()));
                       },
+                      child: Text("Mot de passe oublié ?", style: TextStyle(color: Colors.white)),
+                    ),
                   ),
+                  SizedBox(height: 35.0),
+                  _isLoading
+                      ? CircularProgressIndicator(color: Colors.white)
+                      : ElevatedButton(
+                          onPressed: _login,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Color(0xff052555),
+                            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Text('Connexion', style: TextStyle(fontSize: 18)),
+                        ),
+                  if (_errorMessage != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: Text(
+                        _errorMessage!,
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  SizedBox(height: 40),
+                  Divider(color: Colors.white70),
+                  RichText(
+                    text: TextSpan(
+                      text: "Je suis nouveau. ",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      children: [
+                        TextSpan(
+                          text: "Créer un compte",
+                          style: TextStyle(
+                            color: Color(0xFFFFC107),
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(context, MaterialPageRoute(builder: (_) => RegistrationPage()));
+                            },
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
-            )
-
-
-
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildTextField(
-      TextEditingController controller, String labelText, IconData iconData,
-      {bool obscureText = false}) {
+  Widget _buildTextField(TextEditingController controller, String labelText, IconData iconData, {bool obscureText = false}) {
     return Container(
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
       child: TextField(

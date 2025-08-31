@@ -17,7 +17,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   bool _isLoading = false;
   String? _errorMessage;
 
-  // Variables pour toggle visibilité mots de passe
   bool _showOldPassword = false;
   bool _showNewPassword = false;
   bool _showConfirmPassword = false;
@@ -32,9 +31,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   void _handleChangePassword() async {
     if (_formKey.currentState!.validate()) {
-      // Fermer le clavier au clic
       FocusScope.of(context).unfocus();
-
       setState(() {
         _isLoading = true;
         _errorMessage = null;
@@ -78,7 +75,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   InputDecoration _buildInputDecoration(String label, bool showPassword, VoidCallback toggleVisibility) {
     return InputDecoration(
       labelText: label,
-      labelStyle: TextStyle(color: Colors.grey[700]),
+      labelStyle: TextStyle(color: Colors.white70),
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
@@ -87,98 +84,122 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       suffixIcon: IconButton(
         icon: Icon(
           showPassword ? Icons.visibility : Icons.visibility_off,
-          color: Colors.grey[600],
+          color: Colors.white70,
         ),
         onPressed: toggleVisibility,
       ),
       contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      fillColor: Colors.grey[100],
       filled: true,
+      fillColor: Colors.black.withOpacity(0.1),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Changer le mot de passe"),
-        backgroundColor: Colors.teal,
-        elevation: 2,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              if (_errorMessage != null)
-                Container(
-                  padding: EdgeInsets.all(12),
-                  margin: EdgeInsets.only(bottom: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.red.shade100,
-                    borderRadius: BorderRadius.circular(8),
+    return SafeArea(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            // colors: [
+            //   Color.fromARGB(255, 15, 15, 15),
+            //   Color.fromARGB(255, 44, 48, 49),
+            //   Color.fromARGB(255, 15, 15, 15),
+            // ],
+            colors: [Color(0xFF2F6D78), Color(0xFFAAC4C4)],
+          ),
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Text("Changer le mot de passe"),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          
+          body: Padding(
+            
+            padding: const EdgeInsets.all(20.0),
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                children: [
+                  SizedBox(height: 35),
+                  if (_errorMessage != null)
+                    Container(
+                      
+                      padding: EdgeInsets.all(12),
+                      margin: EdgeInsets.only(bottom: 20),
+                      decoration: BoxDecoration(
+                        color: Colors.red.shade100.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        _errorMessage!,
+                        style: TextStyle(color: Colors.red.shade300, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  SizedBox(height: 35),
+                  TextFormField(
+                    controller: _oldPasswordController,
+                    obscureText: !_showOldPassword,
+                    decoration: _buildInputDecoration(
+                      "Ancien mot de passe",
+                      _showOldPassword,
+                      () => setState(() => _showOldPassword = !_showOldPassword),
+                    ),
+                    style: TextStyle(color: Colors.white),
+                    validator: (value) => value == null || value.isEmpty ? "Champ requis" : null,
                   ),
-                  child: Text(
-                    _errorMessage!,
-                    style: TextStyle(color: Colors.red.shade800, fontWeight: FontWeight.w600),
+                  SizedBox(height: 35),
+                  TextFormField(
+                    controller: _newPasswordController,
+                    obscureText: !_showNewPassword,
+                    decoration: _buildInputDecoration(
+                      "Nouveau mot de passe",
+                      _showNewPassword,
+                      () => setState(() => _showNewPassword = !_showNewPassword),
+                    ),
+                    style: TextStyle(color: Colors.white),
+                    validator: (value) => value == null || value.isEmpty ? "Champ requis" : null,
                   ),
-                ),
-              SizedBox(height: 35),
-              TextFormField(
-                controller: _oldPasswordController,
-                obscureText: !_showOldPassword,
-                decoration: _buildInputDecoration(
-                  "Ancien mot de passe",
-                  _showOldPassword,
-                  () => setState(() => _showOldPassword = !_showOldPassword),
-                ),
-                validator: (value) => value == null || value.isEmpty ? "Champ requis" : null,
-              ),
-              SizedBox(height: 35),
-              TextFormField(
-                controller: _newPasswordController,
-                obscureText: !_showNewPassword,
-                decoration: _buildInputDecoration(
-                  "Nouveau mot de passe",
-                  _showNewPassword,
-                  () => setState(() => _showNewPassword = !_showNewPassword),
-                ),
-                validator: (value) => value == null || value.isEmpty ? "Champ requis" : null,
-              ),
-              SizedBox(height: 35),
-              TextFormField(
-                controller: _confirmPasswordController,
-                obscureText: !_showConfirmPassword,
-                decoration: _buildInputDecoration(
-                  "Confirmer le nouveau mot de passe",
-                  _showConfirmPassword,
-                  () => setState(() => _showConfirmPassword = !_showConfirmPassword),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) return "Champ requis";
-                  if (value != _newPasswordController.text) return "Les mots de passe ne correspondent pas";
-                  return null;
-                },
-              ),
-              SizedBox(height: 35),
-              SizedBox(
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: _isLoading ? null : _handleChangePassword,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.teal,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  SizedBox(height: 35),
+                  TextFormField(
+                    controller: _confirmPasswordController,
+                    obscureText: !_showConfirmPassword,
+                    decoration: _buildInputDecoration(
+                      "Confirmer le nouveau mot de passe",
+                      _showConfirmPassword,
+                      () => setState(() => _showConfirmPassword = !_showConfirmPassword),
+                    ),
+                    style: TextStyle(color: Colors.white),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) return "Champ requis";
+                      if (value != _newPasswordController.text) return "Les mots de passe ne correspondent pas";
+                      return null;
+                    },
                   ),
-                  child: _isLoading
-                      ? CircularProgressIndicator(color: Colors.white)
-                      : Text(
-                          "Changer",
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                ),
+                  SizedBox(height: 35),
+                  SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: _isLoading ? null : _handleChangePassword,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      child: _isLoading
+                          ? CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              "Changer",
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

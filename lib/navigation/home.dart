@@ -25,11 +25,24 @@ class _HomePageState extends State<HomePage> {
   String selectedYear = 'Tous';
 
   @override
+  // void initState() {
+  //   super.initState();
+  //   _loadUserProfile();
+  //   _loadDocuments();
+  // }
+
   void initState() {
-    super.initState();
-    _loadUserProfile();
-    _loadDocuments();
-  }
+  super.initState();
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    final token = await apiService.getToken();
+    if (token != null) {
+      _loadUserProfile();
+      _loadDocuments();
+    } else {
+      Navigator.pushReplacementNamed(context, '/login');
+    }
+  });
+}
 
   Future<void> _loadUserProfile() async {
     final profileData = await apiService.getUserProfile();
@@ -281,7 +294,7 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(height: 8),
                     Text(
                       resume,
-                      style: TextStyle(fontSize: 14, color: Colors.white70),
+                      style: TextStyle(fontSize: 14, color: const Color.fromARGB(179, 10, 9, 9)),
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                     ),

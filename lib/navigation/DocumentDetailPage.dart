@@ -12,56 +12,63 @@ class DocumentDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Détail du document"),
-        backgroundColor: Colors.teal[700],
-      ),
-      body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          padding: EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.grey.shade900, Colors.grey.shade700],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+    return SafeArea(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            // colors: [
+            //   Color.fromARGB(255, 15, 15, 15),
+            //   Color.fromARGB(255, 44, 48, 49),
+            //   Color.fromARGB(255, 15, 15, 15),
+            // ],
+            colors: [Color(0xFF2F6D78), Color(0xFFAAC4C4)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center, // Pour centrer le titre
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              SizedBox(height: 8),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Align(
-                    alignment: Alignment.centerLeft,  // <-- IMPORTANT : force l'alignement à gauche
-                    child: Text(
-                      summary,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white70,
-                        height: 1.4,
-                      ),
-                      textAlign: TextAlign.left, // optionnel
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Text("Détail du document"),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          body: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center, // centre le titre
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(height: 8),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Align(
+                      alignment: Alignment.centerLeft, // aligne à gauche le résumé
+                      child: Text(
+                        summary,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white70,
+                          height: 1.4,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -41,7 +41,6 @@ class _AnnotationListPageState extends State<AnnotationListPage> {
 
       setState(() {
         annotationsWithThesisDetails = detailedAnnotations;
-        print("📌 Annotations avec détails de la thèse : $annotationsWithThesisDetails");
       });
     } catch (e) {
       print('❌ Erreur chargement annotations: $e');
@@ -54,22 +53,23 @@ class _AnnotationListPageState extends State<AnnotationListPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      
-      child: Scaffold(    
-        backgroundColor: Color.fromARGB(255, 11, 12, 12),
-        // appBar: AppBar(
-        //   title: Text('Vos annotations', style: TextStyle(color: Colors.white)),
-        //   backgroundColor: Colors.transparent,
-        //   elevation: 0,
-        //   iconTheme: IconThemeData(color: const Color.fromARGB(255, 199, 83, 83)),
-        // ),
-        body: Column(
-          
-          children: [
-                          Padding(
+      child: Scaffold(
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF2F6D78), Color(0xFFAAC4C4)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: Column(
+            children: [
+              Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  'Vos Annotations ',
+                  'Vos Annotations',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,
@@ -77,23 +77,24 @@ class _AnnotationListPageState extends State<AnnotationListPage> {
                   ),
                 ),
               ),
-            Expanded(
-              child: annotationsWithThesisDetails.isEmpty
-                  ? Center(
-                      child: Text(
-                        'Aucune annotation trouvée',
-                        style: TextStyle(color: const Color.fromARGB(255, 15, 14, 14)),
+              Expanded(
+                child: annotationsWithThesisDetails.isEmpty
+                    ? Center(
+                        child: Text(
+                          'Aucune annotation trouvée',
+                          style: TextStyle(color: Colors.white70),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: annotationsWithThesisDetails.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          var annotationWithDetails = annotationsWithThesisDetails[index];
+                          return _buildAnnotationCard(context, annotationWithDetails);
+                        },
                       ),
-                    )
-                  : ListView.builder(
-                      itemCount: annotationsWithThesisDetails.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        var annotationWithDetails = annotationsWithThesisDetails[index];
-                        return _buildAnnotationCard(context, annotationWithDetails);
-                      },
-                    ),
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -115,16 +116,14 @@ class _AnnotationListPageState extends State<AnnotationListPage> {
         documentUrl = '$documentUrl.pdf';
       }
 
-
       thesisId = thesisDetails['id'] as int?;
     } else {
       thesisTitle = 'Information sur la thèse non disponible';
     }
 
     return Card(
-      elevation: 10,
       color: Color.fromARGB(255, 210, 204, 204),
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 50),
+      margin: EdgeInsets.symmetric(horizontal: 19, vertical: 5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -132,7 +131,7 @@ class _AnnotationListPageState extends State<AnnotationListPage> {
         children: [
           ListTile(
             contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            leading: Icon(Icons.note, size: 48, color: const Color.fromARGB(255, 165, 158, 149)),
+            leading: Icon(Icons.picture_as_pdf, size: 48, color: Color.fromARGB(255, 229, 37, 37)),
             title: Text(
               thesisTitle,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
