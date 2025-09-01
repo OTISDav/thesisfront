@@ -1,0 +1,554 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.cartedevisite"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="23"
+9        android:targetSdkVersion="35" />
+10    <!--
+11         The INTERNET permission is required for development. Specifically,
+12         the Flutter tool needs it to communicate with the running application
+13         to allow setting breakpoints, to provide hot reload, etc.
+14    -->
+15    <uses-permission android:name="android.permission.INTERNET" />
+15-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:6:5-66
+15-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:6:22-64
+16    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+16-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:7:5-76
+16-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:7:22-74
+17    <uses-permission android:name="android.permission.WAKE_LOCK" />
+17-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:8:5-67
+17-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:8:22-65
+18    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+18-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:9:5-80
+18-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:9:22-78
+19
+20    <queries>
+20-->[:file_picker] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\file_picker-10.1.2\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:7:5-13:15
+21        <intent>
+21-->[:file_picker] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\file_picker-10.1.2\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:9-12:18
+22            <action android:name="android.intent.action.GET_CONTENT" />
+22-->[:file_picker] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\file_picker-10.1.2\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:13-72
+22-->[:file_picker] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\file_picker-10.1.2\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:21-69
+23
+24            <data android:mimeType="*/*" />
+24-->[:file_picker] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\file_picker-10.1.2\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:13-44
+24-->[:file_picker] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\file_picker-10.1.2\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:19-41
+25        </intent>
+26    </queries>
+27
+28    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Required by older versions of Google Play services to create IID tokens -->
+28-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:5-79
+28-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:22-76
+29    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+29-->[com.google.firebase:firebase-messaging:25.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\6c8bf24ac30a514e43900973a6822493\transformed\jetified-firebase-messaging-25.0.0\AndroidManifest.xml:26:5-82
+29-->[com.google.firebase:firebase-messaging:25.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\6c8bf24ac30a514e43900973a6822493\transformed\jetified-firebase-messaging-25.0.0\AndroidManifest.xml:26:22-79
+30    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+30-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\a4681ae1f40faaeca6ca098cc099c7ad\transformed\jetified-play-services-measurement-api-23.0.0\AndroidManifest.xml:25:5-79
+30-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\a4681ae1f40faaeca6ca098cc099c7ad\transformed\jetified-play-services-measurement-api-23.0.0\AndroidManifest.xml:25:22-76
+31    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION" />
+31-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\a4681ae1f40faaeca6ca098cc099c7ad\transformed\jetified-play-services-measurement-api-23.0.0\AndroidManifest.xml:26:5-88
+31-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\a4681ae1f40faaeca6ca098cc099c7ad\transformed\jetified-play-services-measurement-api-23.0.0\AndroidManifest.xml:26:22-85
+32    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" />
+32-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\a4681ae1f40faaeca6ca098cc099c7ad\transformed\jetified-play-services-measurement-api-23.0.0\AndroidManifest.xml:27:5-82
+32-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\a4681ae1f40faaeca6ca098cc099c7ad\transformed\jetified-play-services-measurement-api-23.0.0\AndroidManifest.xml:27:22-79
+33    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+33-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\4a1d1d57c70ffc6f7cbe97a64b3202c4\transformed\jetified-play-services-measurement-23.0.0\AndroidManifest.xml:26:5-110
+33-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\4a1d1d57c70ffc6f7cbe97a64b3202c4\transformed\jetified-play-services-measurement-23.0.0\AndroidManifest.xml:26:22-107
+34
+35    <permission
+35-->[androidx.core:core:1.15.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\68e16af6c15662845d99d29588edd163\transformed\core-1.15.0\AndroidManifest.xml:22:5-24:47
+36        android:name="com.example.cartedevisite.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+36-->[androidx.core:core:1.15.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\68e16af6c15662845d99d29588edd163\transformed\core-1.15.0\AndroidManifest.xml:23:9-81
+37        android:protectionLevel="signature" />
+37-->[androidx.core:core:1.15.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\68e16af6c15662845d99d29588edd163\transformed\core-1.15.0\AndroidManifest.xml:24:9-44
+38
+39    <uses-permission android:name="com.example.cartedevisite.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+39-->[androidx.core:core:1.15.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\68e16af6c15662845d99d29588edd163\transformed\core-1.15.0\AndroidManifest.xml:26:5-97
+39-->[androidx.core:core:1.15.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\68e16af6c15662845d99d29588edd163\transformed\core-1.15.0\AndroidManifest.xml:26:22-94
+40
+41    <application
+41-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:11:5-68:19
+42        android:allowBackup="true"
+42-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:14:9-35
+43        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+43-->[androidx.core:core:1.15.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\68e16af6c15662845d99d29588edd163\transformed\core-1.15.0\AndroidManifest.xml:28:18-86
+44        android:debuggable="true"
+45        android:extractNativeLibs="false"
+46        android:icon="@mipmap/ic_launcher"
+46-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:13:9-43
+47        android:label="cartedevisite"
+47-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:12:9-38
+48        android:theme="@style/LaunchTheme" >
+48-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:15:9-43
+49
+50        <!-- MainActivity de Flutter -->
+51        <activity
+51-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:18:9-35:20
+52            android:name="com.example.cartedevisite.MainActivity"
+52-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:19:13-41
+53            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+53-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:23:13-163
+54            android:exported="true"
+54-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:20:13-36
+55            android:hardwareAccelerated="true"
+55-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:24:13-47
+56            android:launchMode="singleTop"
+56-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:21:13-43
+57            android:theme="@style/LaunchTheme"
+57-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:22:13-47
+58            android:windowSoftInputMode="adjustResize" >
+58-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:25:13-55
+59            <meta-data
+59-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:27:13-29:56
+60                android:name="io.flutter.embedding.android.NormalTheme"
+60-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:28:17-72
+61                android:resource="@style/NormalTheme" />
+61-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:29:17-54
+62
+63            <intent-filter>
+63-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:31:13-34:29
+64                <action android:name="android.intent.action.MAIN" />
+64-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:32:17-68
+64-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:32:25-66
+65
+66                <category android:name="android.intent.category.LAUNCHER" />
+66-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:33:17-76
+66-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:33:27-74
+67            </intent-filter>
+68        </activity>
+69
+70        <!-- Flutter embedding v2 -->
+71        <meta-data
+71-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:38:9-71
+72            android:name="flutterEmbedding"
+72-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:38:20-51
+73            android:value="2" />
+73-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:38:52-69
+74
+75        <!-- Service Firebase Cloud Messaging -->
+76        <!--
+77        <service
+78            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+79            android:exported="true"
+80            tools:replace="android:exported">
+81            <intent-filter>
+82                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+83            </intent-filter>
+84        </service>
+85        -->
+86
+87        <service
+87-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:50:9-57:11
+88            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+88-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:51:5-74
+89            android:directBootAware="true"
+89-->[com.google.firebase:firebase-messaging:25.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\6c8bf24ac30a514e43900973a6822493\transformed\jetified-firebase-messaging-25.0.0\AndroidManifest.xml:48:13-43
+90            android:exported="true" >
+90-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:52:5-28
+91            <intent-filter>
+91-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:54:5-56:21
+92                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+92-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:55:9-69
+92-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:55:17-67
+93            </intent-filter>
+94            <intent-filter android:priority="-500" >
+94-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:54:5-56:21
+95                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+95-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:55:9-69
+95-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:55:17-67
+96            </intent-filter>
+97        </service>
+98
+99        <!-- Réception du redémarrage du téléphone -->
+100        <receiver
+100-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:60:9-66:20
+101            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+101-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:61:13-78
+102            android:exported="true"
+102-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:62:13-36
+103            android:permission="com.google.android.c2dm.permission.SEND" >
+103-->[com.google.firebase:firebase-messaging:25.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\6c8bf24ac30a514e43900973a6822493\transformed\jetified-firebase-messaging-25.0.0\AndroidManifest.xml:32:13-73
+104            <intent-filter>
+104-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:63:13-65:29
+105                <action android:name="android.intent.action.BOOT_COMPLETED" />
+105-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:64:17-78
+105-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:64:25-76
+106            </intent-filter>
+107            <intent-filter>
+107-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:30:13-32:29
+108                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+108-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:31:17-81
+108-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:31:25-78
+109            </intent-filter>
+110
+111            <meta-data
+111-->[com.google.firebase:firebase-messaging:25.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\6c8bf24ac30a514e43900973a6822493\transformed\jetified-firebase-messaging-25.0.0\AndroidManifest.xml:37:13-39:40
+112                android:name="com.google.android.gms.cloudmessaging.FINISHED_AFTER_HANDLED"
+112-->[com.google.firebase:firebase-messaging:25.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\6c8bf24ac30a514e43900973a6822493\transformed\jetified-firebase-messaging-25.0.0\AndroidManifest.xml:38:17-92
+113                android:value="true" />
+113-->[com.google.firebase:firebase-messaging:25.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\6c8bf24ac30a514e43900973a6822493\transformed\jetified-firebase-messaging-25.0.0\AndroidManifest.xml:39:17-37
+114        </receiver>
+115
+116        <service
+116-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:14:9-17:72
+117            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingBackgroundService"
+117-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:15:13-107
+118            android:exported="false"
+118-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:16:13-37
+119            android:permission="android.permission.BIND_JOB_SERVICE" />
+119-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:17:13-69
+120        <service
+120-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:18:9-24:19
+121            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingService"
+121-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:19:13-97
+122            android:exported="false" >
+122-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:20:13-37
+123            <intent-filter>
+123-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:54:5-56:21
+124                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+124-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:55:9-69
+124-->C:\Users\OTIS\cartedevisite\android\app\src\main\AndroidManifest.xml:55:17-67
+125            </intent-filter>
+126        </service>
+127
+128        <receiver
+128-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:26:9-33:20
+129            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingReceiver"
+129-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:27:13-98
+130            android:exported="true"
+130-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:28:13-36
+131            android:permission="com.google.android.c2dm.permission.SEND" >
+131-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:29:13-73
+132            <intent-filter>
+132-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:30:13-32:29
+133                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+133-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:31:17-81
+133-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:31:25-78
+134            </intent-filter>
+135        </receiver>
+136
+137        <service
+137-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:35:9-39:19
+138            android:name="com.google.firebase.components.ComponentDiscoveryService"
+138-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:35:18-89
+139            android:directBootAware="true"
+139-->[com.google.firebase:firebase-common:22.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\1cd6f558af736594563fd657f868fa56\transformed\jetified-firebase-common-22.0.0\AndroidManifest.xml:32:13-43
+140            android:exported="false" >
+140-->[com.google.firebase:firebase-messaging:25.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\6c8bf24ac30a514e43900973a6822493\transformed\jetified-firebase-messaging-25.0.0\AndroidManifest.xml:56:13-37
+141            <meta-data
+141-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:36:13-38:85
+142                android:name="com.google.firebase.components:io.flutter.plugins.firebase.messaging.FlutterFirebaseAppRegistrar"
+142-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:37:17-128
+143                android:value="com.google.firebase.components.ComponentRegistrar" />
+143-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:38:17-82
+144            <meta-data
+144-->[:firebase_core] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-2.32.0\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:13-11:85
+145                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
+145-->[:firebase_core] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-2.32.0\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:10:17-124
+146                android:value="com.google.firebase.components.ComponentRegistrar" />
+146-->[:firebase_core] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-2.32.0\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:17-82
+147            <meta-data
+147-->[com.google.firebase:firebase-messaging:25.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\6c8bf24ac30a514e43900973a6822493\transformed\jetified-firebase-messaging-25.0.0\AndroidManifest.xml:57:13-59:85
+148                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingKtxRegistrar"
+148-->[com.google.firebase:firebase-messaging:25.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\6c8bf24ac30a514e43900973a6822493\transformed\jetified-firebase-messaging-25.0.0\AndroidManifest.xml:58:17-122
+149                android:value="com.google.firebase.components.ComponentRegistrar" />
+149-->[com.google.firebase:firebase-messaging:25.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\6c8bf24ac30a514e43900973a6822493\transformed\jetified-firebase-messaging-25.0.0\AndroidManifest.xml:59:17-82
+150            <meta-data
+150-->[com.google.firebase:firebase-messaging:25.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\6c8bf24ac30a514e43900973a6822493\transformed\jetified-firebase-messaging-25.0.0\AndroidManifest.xml:60:13-62:85
+151                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+151-->[com.google.firebase:firebase-messaging:25.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\6c8bf24ac30a514e43900973a6822493\transformed\jetified-firebase-messaging-25.0.0\AndroidManifest.xml:61:17-119
+152                android:value="com.google.firebase.components.ComponentRegistrar" />
+152-->[com.google.firebase:firebase-messaging:25.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\6c8bf24ac30a514e43900973a6822493\transformed\jetified-firebase-messaging-25.0.0\AndroidManifest.xml:62:17-82
+153            <meta-data
+153-->[com.google.firebase:firebase-iid:21.1.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\737192d229988eeb9d678082fa979864\transformed\jetified-firebase-iid-21.1.0\AndroidManifest.xml:32:13-34:85
+154                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+154-->[com.google.firebase:firebase-iid:21.1.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\737192d229988eeb9d678082fa979864\transformed\jetified-firebase-iid-21.1.0\AndroidManifest.xml:33:17-96
+155                android:value="com.google.firebase.components.ComponentRegistrar" />
+155-->[com.google.firebase:firebase-iid:21.1.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\737192d229988eeb9d678082fa979864\transformed\jetified-firebase-iid-21.1.0\AndroidManifest.xml:34:17-82
+156            <meta-data
+156-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\a4681ae1f40faaeca6ca098cc099c7ad\transformed\jetified-play-services-measurement-api-23.0.0\AndroidManifest.xml:33:13-35:85
+157                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+157-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\a4681ae1f40faaeca6ca098cc099c7ad\transformed\jetified-play-services-measurement-api-23.0.0\AndroidManifest.xml:34:17-139
+158                android:value="com.google.firebase.components.ComponentRegistrar" />
+158-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\a4681ae1f40faaeca6ca098cc099c7ad\transformed\jetified-play-services-measurement-api-23.0.0\AndroidManifest.xml:35:17-82
+159            <meta-data
+159-->[com.google.firebase:firebase-installations:19.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\ffd3487e6ebff6828e0e3b7d7eafdc2e\transformed\jetified-firebase-installations-19.0.0\AndroidManifest.xml:15:13-17:85
+160                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsKtxRegistrar"
+160-->[com.google.firebase:firebase-installations:19.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\ffd3487e6ebff6828e0e3b7d7eafdc2e\transformed\jetified-firebase-installations-19.0.0\AndroidManifest.xml:16:17-130
+161                android:value="com.google.firebase.components.ComponentRegistrar" />
+161-->[com.google.firebase:firebase-installations:19.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\ffd3487e6ebff6828e0e3b7d7eafdc2e\transformed\jetified-firebase-installations-19.0.0\AndroidManifest.xml:17:17-82
+162            <meta-data
+162-->[com.google.firebase:firebase-installations:19.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\ffd3487e6ebff6828e0e3b7d7eafdc2e\transformed\jetified-firebase-installations-19.0.0\AndroidManifest.xml:18:13-20:85
+163                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+163-->[com.google.firebase:firebase-installations:19.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\ffd3487e6ebff6828e0e3b7d7eafdc2e\transformed\jetified-firebase-installations-19.0.0\AndroidManifest.xml:19:17-127
+164                android:value="com.google.firebase.components.ComponentRegistrar" />
+164-->[com.google.firebase:firebase-installations:19.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\ffd3487e6ebff6828e0e3b7d7eafdc2e\transformed\jetified-firebase-installations-19.0.0\AndroidManifest.xml:20:17-82
+165            <meta-data
+165-->[com.google.firebase:firebase-common:22.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\1cd6f558af736594563fd657f868fa56\transformed\jetified-firebase-common-22.0.0\AndroidManifest.xml:35:13-37:85
+166                android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
+166-->[com.google.firebase:firebase-common:22.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\1cd6f558af736594563fd657f868fa56\transformed\jetified-firebase-common-22.0.0\AndroidManifest.xml:36:17-109
+167                android:value="com.google.firebase.components.ComponentRegistrar" />
+167-->[com.google.firebase:firebase-common:22.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\1cd6f558af736594563fd657f868fa56\transformed\jetified-firebase-common-22.0.0\AndroidManifest.xml:37:17-82
+168            <meta-data
+168-->[com.google.firebase:firebase-datatransport:18.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\a638c3028851a77162da17351d5afde8\transformed\jetified-firebase-datatransport-18.2.0\AndroidManifest.xml:25:13-27:85
+169                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+169-->[com.google.firebase:firebase-datatransport:18.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\a638c3028851a77162da17351d5afde8\transformed\jetified-firebase-datatransport-18.2.0\AndroidManifest.xml:26:17-115
+170                android:value="com.google.firebase.components.ComponentRegistrar" />
+170-->[com.google.firebase:firebase-datatransport:18.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\a638c3028851a77162da17351d5afde8\transformed\jetified-firebase-datatransport-18.2.0\AndroidManifest.xml:27:17-82
+171        </service>
+172
+173        <provider
+173-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:41:9-45:38
+174            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingInitProvider"
+174-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:42:13-102
+175            android:authorities="com.example.cartedevisite.flutterfirebasemessaginginitprovider"
+175-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:43:13-88
+176            android:exported="false"
+176-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:44:13-37
+177            android:initOrder="99" />
+177-->[:firebase_messaging] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_messaging-14.7.10\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:45:13-35
+178        <provider
+178-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:9-17:20
+179            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+179-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:10:13-82
+180            android:authorities="com.example.cartedevisite.flutter.image_provider"
+180-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:13-74
+181            android:exported="false"
+181-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:12:13-37
+182            android:grantUriPermissions="true" >
+182-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:13:13-47
+183            <meta-data
+183-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:14:13-16:75
+184                android:name="android.support.FILE_PROVIDER_PATHS"
+184-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:15:17-67
+185                android:resource="@xml/flutter_image_picker_file_paths" />
+185-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:16:17-72
+186        </provider> <!-- Trigger Google Play services to install the backported photo picker module. -->
+187        <service
+187-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:19:9-31:19
+188            android:name="com.google.android.gms.metadata.ModuleDependencies"
+188-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:20:13-78
+189            android:enabled="false"
+189-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:21:13-36
+190            android:exported="false" >
+190-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:22:13-37
+191            <intent-filter>
+191-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:24:13-26:29
+192                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
+192-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:25:17-94
+192-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:25:25-91
+193            </intent-filter>
+194
+195            <meta-data
+195-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:28:13-30:36
+196                android:name="photopicker_activity:0:required"
+196-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:29:17-63
+197                android:value="" />
+197-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:30:17-33
+198        </service>
+199
+200        <activity
+200-->[:url_launcher_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\url_launcher_android-6.3.16\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:9-11:74
+201            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+201-->[:url_launcher_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\url_launcher_android-6.3.16\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:13-74
+202            android:exported="false"
+202-->[:url_launcher_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\url_launcher_android-6.3.16\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:10:13-37
+203            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+203-->[:url_launcher_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\url_launcher_android-6.3.16\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:13-71
+204
+205        <provider
+205-->[:open_file_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\open_file_android-1.0.6\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:9-19:20
+206            android:name="com.crazecoder.openfile.FileProvider"
+206-->[:open_file_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\open_file_android-1.0.6\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:10:13-64
+207            android:authorities="com.example.cartedevisite.fileProvider.com.crazecoder.openfile"
+207-->[:open_file_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\open_file_android-1.0.6\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:13-88
+208            android:exported="false"
+208-->[:open_file_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\open_file_android-1.0.6\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:12:13-37
+209            android:grantUriPermissions="true"
+209-->[:open_file_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\open_file_android-1.0.6\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:13:13-47
+210            android:requestLegacyExternalStorage="true" >
+210-->[:open_file_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\open_file_android-1.0.6\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:14:13-56
+211            <meta-data
+211-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:14:13-16:75
+212                android:name="android.support.FILE_PROVIDER_PATHS"
+212-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:15:17-67
+213                android:resource="@xml/filepaths" />
+213-->[:image_picker_android] C:\Users\OTIS\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+23\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:16:17-72
+214        </provider>
+215        <provider
+215-->[com.google.firebase:firebase-common:22.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\1cd6f558af736594563fd657f868fa56\transformed\jetified-firebase-common-22.0.0\AndroidManifest.xml:23:9-28:39
+216            android:name="com.google.firebase.provider.FirebaseInitProvider"
+216-->[com.google.firebase:firebase-common:22.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\1cd6f558af736594563fd657f868fa56\transformed\jetified-firebase-common-22.0.0\AndroidManifest.xml:24:13-77
+217            android:authorities="com.example.cartedevisite.firebaseinitprovider"
+217-->[com.google.firebase:firebase-common:22.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\1cd6f558af736594563fd657f868fa56\transformed\jetified-firebase-common-22.0.0\AndroidManifest.xml:25:13-72
+218            android:directBootAware="true"
+218-->[com.google.firebase:firebase-common:22.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\1cd6f558af736594563fd657f868fa56\transformed\jetified-firebase-common-22.0.0\AndroidManifest.xml:26:13-43
+219            android:exported="false"
+219-->[com.google.firebase:firebase-common:22.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\1cd6f558af736594563fd657f868fa56\transformed\jetified-firebase-common-22.0.0\AndroidManifest.xml:27:13-37
+220            android:initOrder="100" />
+220-->[com.google.firebase:firebase-common:22.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\1cd6f558af736594563fd657f868fa56\transformed\jetified-firebase-common-22.0.0\AndroidManifest.xml:28:13-36
+221
+222        <receiver
+222-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\4a1d1d57c70ffc6f7cbe97a64b3202c4\transformed\jetified-play-services-measurement-23.0.0\AndroidManifest.xml:29:9-33:20
+223            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+223-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\4a1d1d57c70ffc6f7cbe97a64b3202c4\transformed\jetified-play-services-measurement-23.0.0\AndroidManifest.xml:30:13-85
+224            android:enabled="true"
+224-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\4a1d1d57c70ffc6f7cbe97a64b3202c4\transformed\jetified-play-services-measurement-23.0.0\AndroidManifest.xml:31:13-35
+225            android:exported="false" >
+225-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\4a1d1d57c70ffc6f7cbe97a64b3202c4\transformed\jetified-play-services-measurement-23.0.0\AndroidManifest.xml:32:13-37
+226        </receiver>
+227
+228        <service
+228-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\4a1d1d57c70ffc6f7cbe97a64b3202c4\transformed\jetified-play-services-measurement-23.0.0\AndroidManifest.xml:35:9-38:40
+229            android:name="com.google.android.gms.measurement.AppMeasurementService"
+229-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\4a1d1d57c70ffc6f7cbe97a64b3202c4\transformed\jetified-play-services-measurement-23.0.0\AndroidManifest.xml:36:13-84
+230            android:enabled="true"
+230-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\4a1d1d57c70ffc6f7cbe97a64b3202c4\transformed\jetified-play-services-measurement-23.0.0\AndroidManifest.xml:37:13-35
+231            android:exported="false" />
+231-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\4a1d1d57c70ffc6f7cbe97a64b3202c4\transformed\jetified-play-services-measurement-23.0.0\AndroidManifest.xml:38:13-37
+232        <service
+232-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\4a1d1d57c70ffc6f7cbe97a64b3202c4\transformed\jetified-play-services-measurement-23.0.0\AndroidManifest.xml:39:9-43:72
+233            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+233-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\4a1d1d57c70ffc6f7cbe97a64b3202c4\transformed\jetified-play-services-measurement-23.0.0\AndroidManifest.xml:40:13-87
+234            android:enabled="true"
+234-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\4a1d1d57c70ffc6f7cbe97a64b3202c4\transformed\jetified-play-services-measurement-23.0.0\AndroidManifest.xml:41:13-35
+235            android:exported="false"
+235-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\4a1d1d57c70ffc6f7cbe97a64b3202c4\transformed\jetified-play-services-measurement-23.0.0\AndroidManifest.xml:42:13-37
+236            android:permission="android.permission.BIND_JOB_SERVICE" />
+236-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\4a1d1d57c70ffc6f7cbe97a64b3202c4\transformed\jetified-play-services-measurement-23.0.0\AndroidManifest.xml:43:13-69
+237
+238        <provider
+238-->[androidx.emoji2:emoji2:1.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\2572c773145932f08e3b72fd0d530e61\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+239            android:name="androidx.startup.InitializationProvider"
+239-->[androidx.emoji2:emoji2:1.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\2572c773145932f08e3b72fd0d530e61\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
+240            android:authorities="com.example.cartedevisite.androidx-startup"
+240-->[androidx.emoji2:emoji2:1.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\2572c773145932f08e3b72fd0d530e61\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
+241            android:exported="false" >
+241-->[androidx.emoji2:emoji2:1.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\2572c773145932f08e3b72fd0d530e61\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
+242            <meta-data
+242-->[androidx.emoji2:emoji2:1.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\2572c773145932f08e3b72fd0d530e61\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+243                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+243-->[androidx.emoji2:emoji2:1.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\2572c773145932f08e3b72fd0d530e61\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
+244                android:value="androidx.startup" />
+244-->[androidx.emoji2:emoji2:1.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\2572c773145932f08e3b72fd0d530e61\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
+245            <meta-data
+245-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\dc3934e7b5992873779b6c0d978229f8\transformed\jetified-lifecycle-process-2.8.7\AndroidManifest.xml:29:13-31:52
+246                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+246-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\dc3934e7b5992873779b6c0d978229f8\transformed\jetified-lifecycle-process-2.8.7\AndroidManifest.xml:30:17-78
+247                android:value="androidx.startup" />
+247-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\dc3934e7b5992873779b6c0d978229f8\transformed\jetified-lifecycle-process-2.8.7\AndroidManifest.xml:31:17-49
+248            <meta-data
+248-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+249                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+249-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+250                android:value="androidx.startup" />
+250-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+251        </provider>
+252
+253        <uses-library
+253-->[androidx.window:window:1.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\aed2861b2b6894f7067df3f3f96b791f\transformed\jetified-window-1.2.0\AndroidManifest.xml:23:9-25:40
+254            android:name="androidx.window.extensions"
+254-->[androidx.window:window:1.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\aed2861b2b6894f7067df3f3f96b791f\transformed\jetified-window-1.2.0\AndroidManifest.xml:24:13-54
+255            android:required="false" />
+255-->[androidx.window:window:1.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\aed2861b2b6894f7067df3f3f96b791f\transformed\jetified-window-1.2.0\AndroidManifest.xml:25:13-37
+256        <uses-library
+256-->[androidx.window:window:1.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\aed2861b2b6894f7067df3f3f96b791f\transformed\jetified-window-1.2.0\AndroidManifest.xml:26:9-28:40
+257            android:name="androidx.window.sidecar"
+257-->[androidx.window:window:1.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\aed2861b2b6894f7067df3f3f96b791f\transformed\jetified-window-1.2.0\AndroidManifest.xml:27:13-51
+258            android:required="false" />
+258-->[androidx.window:window:1.2.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\aed2861b2b6894f7067df3f3f96b791f\transformed\jetified-window-1.2.0\AndroidManifest.xml:28:13-37
+259        <uses-library
+259-->[androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\74dc9915bca9ca074eee106cdcd2b4c7\transformed\jetified-ads-adservices-1.1.0-beta11\AndroidManifest.xml:23:9-25:40
+260            android:name="android.ext.adservices"
+260-->[androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\74dc9915bca9ca074eee106cdcd2b4c7\transformed\jetified-ads-adservices-1.1.0-beta11\AndroidManifest.xml:24:13-50
+261            android:required="false" />
+261-->[androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\74dc9915bca9ca074eee106cdcd2b4c7\transformed\jetified-ads-adservices-1.1.0-beta11\AndroidManifest.xml:25:13-37
+262
+263        <activity
+263-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\c26a5e61fe542527cf2bb32b2ba51b51\transformed\jetified-play-services-base-18.5.0\AndroidManifest.xml:5:9-173
+264            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+264-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\c26a5e61fe542527cf2bb32b2ba51b51\transformed\jetified-play-services-base-18.5.0\AndroidManifest.xml:5:19-85
+265            android:exported="false"
+265-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\c26a5e61fe542527cf2bb32b2ba51b51\transformed\jetified-play-services-base-18.5.0\AndroidManifest.xml:5:146-170
+266            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+266-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\c26a5e61fe542527cf2bb32b2ba51b51\transformed\jetified-play-services-base-18.5.0\AndroidManifest.xml:5:86-145
+267
+268        <meta-data
+268-->[com.google.android.gms:play-services-basement:18.5.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\06633f89c906a7f75de245256f0487e4\transformed\jetified-play-services-basement-18.5.0\AndroidManifest.xml:21:9-23:69
+269            android:name="com.google.android.gms.version"
+269-->[com.google.android.gms:play-services-basement:18.5.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\06633f89c906a7f75de245256f0487e4\transformed\jetified-play-services-basement-18.5.0\AndroidManifest.xml:22:13-58
+270            android:value="@integer/google_play_services_version" />
+270-->[com.google.android.gms:play-services-basement:18.5.0] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\06633f89c906a7f75de245256f0487e4\transformed\jetified-play-services-basement-18.5.0\AndroidManifest.xml:23:13-66
+271
+272        <service
+272-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\c20fee8fa6177ca70bdf907ecbe9fc4d\transformed\jetified-transport-backend-cct-3.1.9\AndroidManifest.xml:28:9-34:19
+273            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+273-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\c20fee8fa6177ca70bdf907ecbe9fc4d\transformed\jetified-transport-backend-cct-3.1.9\AndroidManifest.xml:29:13-103
+274            android:exported="false" >
+274-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\c20fee8fa6177ca70bdf907ecbe9fc4d\transformed\jetified-transport-backend-cct-3.1.9\AndroidManifest.xml:30:13-37
+275            <meta-data
+275-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\c20fee8fa6177ca70bdf907ecbe9fc4d\transformed\jetified-transport-backend-cct-3.1.9\AndroidManifest.xml:31:13-33:39
+276                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+276-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\c20fee8fa6177ca70bdf907ecbe9fc4d\transformed\jetified-transport-backend-cct-3.1.9\AndroidManifest.xml:32:17-94
+277                android:value="cct" />
+277-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\c20fee8fa6177ca70bdf907ecbe9fc4d\transformed\jetified-transport-backend-cct-3.1.9\AndroidManifest.xml:33:17-36
+278        </service>
+279        <service
+279-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\cfe698444f11ffc78f1c724f09590729\transformed\jetified-transport-runtime-3.1.9\AndroidManifest.xml:26:9-30:19
+280            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+280-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\cfe698444f11ffc78f1c724f09590729\transformed\jetified-transport-runtime-3.1.9\AndroidManifest.xml:27:13-117
+281            android:exported="false"
+281-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\cfe698444f11ffc78f1c724f09590729\transformed\jetified-transport-runtime-3.1.9\AndroidManifest.xml:28:13-37
+282            android:permission="android.permission.BIND_JOB_SERVICE" >
+282-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\cfe698444f11ffc78f1c724f09590729\transformed\jetified-transport-runtime-3.1.9\AndroidManifest.xml:29:13-69
+283        </service>
+284
+285        <receiver
+285-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\cfe698444f11ffc78f1c724f09590729\transformed\jetified-transport-runtime-3.1.9\AndroidManifest.xml:32:9-34:40
+286            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+286-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\cfe698444f11ffc78f1c724f09590729\transformed\jetified-transport-runtime-3.1.9\AndroidManifest.xml:33:13-132
+287            android:exported="false" />
+287-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\cfe698444f11ffc78f1c724f09590729\transformed\jetified-transport-runtime-3.1.9\AndroidManifest.xml:34:13-37
+288        <receiver
+288-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+289            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+289-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+290            android:directBootAware="false"
+290-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+291            android:enabled="true"
+291-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+292            android:exported="true"
+292-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+293            android:permission="android.permission.DUMP" >
+293-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+294            <intent-filter>
+294-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+295                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+295-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+295-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+296            </intent-filter>
+297            <intent-filter>
+297-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+298                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+298-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+298-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+299            </intent-filter>
+300            <intent-filter>
+300-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+301                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+301-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+301-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+302            </intent-filter>
+303            <intent-filter>
+303-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+304                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+304-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+304-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\OTIS\.gradle\caches\8.10.2\transforms\5aacd87baa6feaa7bece87b01e7698f0\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+305            </intent-filter>
+306        </receiver>
+307    </application>
+308
+309</manifest>

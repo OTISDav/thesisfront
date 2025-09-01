@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "135276941386",
+    "project_id": "cartedevisiteapp",
+    "storage_bucket": "cartedevisiteapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:135276941386:android:f9df445b091cf39d3a16b3",
+        "android_client_info": {
+          "package_name": "com.example.cartedevisite"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqAT8CBIIZ4-kORyYoD7PutxagIKE-lY0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
