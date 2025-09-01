@@ -8,8 +8,10 @@ plugins {
 
 android {
     namespace = "com.example.cartedevisite"
-    compileSdk = flutter.compileSdkVersion
+    // compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = "27.0.12077973"
+    
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -25,10 +27,17 @@ android {
         applicationId = "com.example.cartedevisite"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        // minSdk = flutter.minSdkVersion
+        // targetSdk = flutter.targetSdkVersion
+        // versionCode = flutter.versionCode
+        // versionName = flutter.versionName
+
+        applicationId = "com.example.cartedevisite"
+        minSdk = 23               // <-- mettez ici 23 ou plus
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        
     }
 
     buildTypes {
