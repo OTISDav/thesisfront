@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jwt_decode/jwt_decode.dart'; // Ajouter cette dépendance dans pubspec.yaml
 import 'navigation/welcomepage.dart';
 import 'auth/api_service.dart';
 import 'navigation/navigation.dart'; // Ta page d'accueil après login
@@ -14,8 +15,16 @@ class MyApp extends StatelessWidget {
   MyApp(this.apiService);
 
   Future<bool> _isLoggedIn() async {
-    final token = await apiService.getToken(); // Récupère le token
-    return token != null && token.isNotEmpty;
+    final token = await apiService.getToken();
+    if (token == null || token.isEmpty) return false;
+
+    try {
+      // Vérifie si le token JWT est expiré
+      return !Jwt.isExpired(token);
+    } catch (e) {
+      // En cas d'erreur de décodage on considère le token invalide
+      return false;
+    }
   }
 
   @override
@@ -34,9 +43,9 @@ class MyApp extends StatelessWidget {
           }
 
           if (snapshot.data == true) {
-            return MyHomePage(); // Déjà connecté
+            return MyHomePage(); // Déjà connecté avec token valide
           } else {
-            return Welcome(); // Pas connecté
+            return Welcome(); // Pas connecté ou token expiré
           }
         },
       ),
